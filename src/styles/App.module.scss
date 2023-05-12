@@ -1,0 +1,33 @@
+@use "variables";
+
+.app_container {
+	background-color: variables.$regular_background_color;
+	width: 100vw;
+	height: 100vh;
+}
+
+.navbar {
+	width: 100vw;
+	height: 7%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-bottom: variables.$ligher-grey_color solid thin;
+
+	.wordle_title {
+		padding: 4px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: white;
+		font-size: 24px;
+		text-transform: uppercase;
+	}
+}
+
+
+
+.lower_part {
+	height: 93%;
+	width: 100%;
+}
