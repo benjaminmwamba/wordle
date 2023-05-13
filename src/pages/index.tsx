@@ -1,7 +1,8 @@
 import { Inter } from 'next/font/google'
 import styles from '@/styles/App.module.scss'
 import Board from '@/components/board/Board'
-import Keyboard from '@/components/Keyboard'
+import Keyboard from '@/components/keyboard/Keyboard'
+import { changeBoardKeyBackgroundColor } from '@/components/board/changeBoardKeyBackgroundColor'
 
 const inter = Inter({ subsets: ['latin'] })
 

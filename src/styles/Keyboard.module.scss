@@ -8,11 +8,11 @@ $key_gap: 6px;
 	display: flex;
 	align-items: flex-end;
 	justify-content: center;
-	padding-bottom: 30px;
+	padding-bottom: 10px;
 }
 
 .touchpad_container {
-	width: 500px;
+	width: 510px;
 	height: 50%;
 	display: grid;
 	gap: $key_gap;
