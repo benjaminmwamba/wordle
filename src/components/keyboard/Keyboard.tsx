@@ -19,12 +19,12 @@ const Keyboard = () => {
 							if (keySlot.includes("")) return "second"
 							if (keySlot.includes("enter")) return "third"
 						}
-						
+
 						return (
 							<div data-keyboard_slot_type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
 								{
 									keySlot.map((key, index) => {
-										
+
 										return (
 											<div data-keyboard_key={key} key={(key + index)} className={styles.touchpad_key}>
 												{key}
