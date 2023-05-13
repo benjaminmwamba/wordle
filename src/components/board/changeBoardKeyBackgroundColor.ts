@@ -26,10 +26,10 @@ export const getSelectedBoardCase = ({ boardSlotNumber, boardCaseNumber }: GetSe
 	const selectedSlot = boardSlots[boardSlotNumber]
 	const allBoardCasesFromCurrentSlot = selectedSlot.querySelectorAll("[data-board_case]")
 	const selectedCase = allBoardCasesFromCurrentSlot[boardCaseNumber]
-	return selectedCase
+	return selectedCase as HTMLElement
 }
 
 export const changeBoardKeyBackgroundColor = ({ boardSlotNumber, boardCaseNumber, color }: ChangeBoardKeyBackgroundColorProps) => {
-	const selectedCase = getSelectedBoardCase({ boardSlotNumber, boardCaseNumber }) as HTMLElement
+	const selectedCase = getSelectedBoardCase({ boardSlotNumber, boardCaseNumber })
 	setBoardCaseBackgroundColor({ boardCase: selectedCase, color })
 };
