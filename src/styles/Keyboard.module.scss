@@ -24,15 +24,15 @@ $key_gap: 6px;
 	
 	gap: $key_gap;
 
-	&[data-slot-type="first"] {
+	&[data-keyboard_slot_type="first"] {
 		grid-template-columns: repeat(10, 1fr);
 	}
 
-	&[data-slot-type="second"] {
+	&[data-keyboard_slot_type="second"] {
 		grid-template-columns: 0.5fr repeat(9, 1fr) 0.5fr;
 	}
 	
-	&[data-slot-type="third"] {
+	&[data-keyboard_slot_type="third"] {
 		grid-template-columns: 1.54fr repeat(7, 0.92fr) 1.54fr;
 	}
 }
@@ -51,10 +51,10 @@ $key_gap: 6px;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	font-weight: bolder;
 
-	&[data-key="enter"] {
+	&[data-keyboard_Key="enter"] {
 		font-size: 12px;
 	}
-	&[data-key=""] {
+	&[data-keyboard_Key=""] {
 		background-color: variables.$regular_background_color;
 	}
 }

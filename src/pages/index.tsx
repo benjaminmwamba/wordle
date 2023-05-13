@@ -10,7 +10,6 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 export default function Home() {
-  const [current, setCurrent] = useState<ChangeBoardKeyInnerTextProps>({boardSlotNumber: 0, boardCaseNumber: 0, text: "a"})
   
   return (
     

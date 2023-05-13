@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "src/styles/Keyboard.module.scss"
 
 const keyboardKeys = [
@@ -21,12 +21,12 @@ const Keyboard = () => {
 						}
 						
 						return (
-							<div data-slot-type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
+							<div data-keyboard_slot_type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
 								{
 									keySlot.map((key, index) => {
 										
 										return (
-											<div data-key={key} key={(key + index)} className={styles.touchpad_key}>
+											<div data-keyboard_key={key} key={(key + index)} className={styles.touchpad_key}>
 												{key}
 											</div>
 										)
