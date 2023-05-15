@@ -1,62 +1,35 @@
-import React from "react";
-import styles from "src/styles/Board.module.scss"
-import { changeBoardKeyBackgroundColor } from "./changeBoardKeyBackgroundColor";
-import { GREEN, ORANGE, LIGHTER_GREY, REGULAR_BACKGROUND_COLOR } from "@/utilities/colors";
+import React, { useContext } from "react";
+import styles from "src/styles/Board.module.scss";
+import { StateContext, StateContextType } from "@/helpers/StateProvider";
 
-const slotKeys = ["3q35243g", "jgfiaj5w", "83838hg", "giisn8493", "jgfan5589", "ajfng5329"]
-const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"]
+const slotKeys = ["3q35243g", "jgfiaj5w", "83838hg", "giisn8493", "jgfan5589", "ajfng5329"];
+const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"];
 
-interface BoardProps {
-	board: string[][]
-}
-
-const Board = ({ board }: BoardProps) => {
+const Board = () => {
+	const { boardState } = useContext(StateContext) as StateContextType;
+	const [board, setBoard] = boardState;
 
 	return (
 		<div className={styles.board_container}>
 			<div className={styles.board_slots_container}>
-				{
-					board.map((slotKey, index) => {
-						const slotKeyKey = slotKeys[index]
-						return (
-							<div data-board_slot key={slotKeyKey} className={styles.board_slot}>
-								{
-									
-									slotKey.map((innerKey, index) => {
-										const innerKeyKey = innerKeys[index]
-										return (
-											<div data-board_case key={innerKeyKey} className={styles.board_case}>
-												{innerKey}
-											</div>
-										)
-									})
-								}
-							</div>
-						)
-					})
-				}
-			</div>
-
-		</div>
-	)
-
-
-	return (
-		<div className={styles.board_container}>
-			<div className={styles.board_slots_container}>
-				{
-					slotKeys.map((slotKey) => (
-						<div data-board_slot key={slotKey} className={styles.board_slot}>
-							{
-								innerKeys.map(innerKey => <div data-board_case key={innerKey} className={styles.board_case}></div>)
-							}
+				{board.map((slotKey, index) => {
+					const slotKeyKey = slotKeys[index];
+					return (
+						<div data-board_slot key={slotKeyKey} className={styles.board_slot}>
+							{slotKey.map((innerKey, index) => {
+								const innerKeyKey = innerKeys[index];
+								return (
+									<div data-board_case key={innerKeyKey} className={styles.board_case}>
+										{innerKey}
+									</div>
+								);
+							})}
 						</div>
-					))
-				}
+					);
+				})}
 			</div>
-
 		</div>
-	)
+	);
 };
 
 export default Board;
