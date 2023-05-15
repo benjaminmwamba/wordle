@@ -18,7 +18,10 @@ export default function Home() {
         <nav className={styles.navbar}>
           <h2 className={styles.wordle_title}>wordle</h2>
         </nav>
-        <Board />
+        <section className={styles.lower_part}>
+          <Board/>
+          <Keyboard/>
+        </section>
       </div>
       
     </StateProvider>
