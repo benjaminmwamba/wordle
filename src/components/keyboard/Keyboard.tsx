@@ -7,10 +7,9 @@ import KeyboardUI from "./KeyboardUI";
 
 
 const Keyboard = () => {
-
-	const [board, setBoard,
-		attempt, setAttempt,
-		currentSpot, setCurrentSpot] = useContext(StateContext) as StateContextType;
+	const { boardState, currentSpotState } = useContext(StateContext) as StateContextType;
+	const [board, setBoard] = boardState
+	const [currentSpot, setCurrentSpot] = currentSpotState
 
 	const handleCurrentSpot = useCallback(() => {
 		setCurrentSpot(previousSpot => {
@@ -38,7 +37,7 @@ const Keyboard = () => {
 
 	const keyDown = useCallback((event: KeyboardEvent) => {
 		const key = event.key
-		if (alphabet.includes(key)) {
+		if (alphabet.includes(key.toUpperCase())) {
 			handleLetter()
 		} else if (key === "Enter") {
 			handleEnter()

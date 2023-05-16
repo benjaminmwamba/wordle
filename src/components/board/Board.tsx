@@ -6,9 +6,6 @@ import { alphabet } from "./boardConstants";
 
 
 const Board = () => {
-	const [board, setBoard,
-		attempt, setAttempt,
-		currentSpot, setCurrentSpot] = useContext(StateContext) as StateContextType;
 	
 	
 

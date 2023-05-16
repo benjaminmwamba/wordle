@@ -9,7 +9,6 @@ const inter = Inter({ subsets: ['latin'] })
 
 
 export default function Home() {
-  const [board, setBoard] = useContext(StateContext) as StateContextType;
 
   return <WordleUI />
 }
