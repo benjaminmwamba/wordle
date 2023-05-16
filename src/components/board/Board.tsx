@@ -1,34 +1,46 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import styles from "src/styles/Board.module.scss";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
+import BoardUI from "./BoardUI";
+import { alphabet } from "./boardConstants";
 
-const slotKeys = ["3q35243g", "jgfiaj5w", "83838hg", "giisn8493", "jgfan5589", "ajfng5329"];
-const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"];
 
 const Board = () => {
-	const [board, setBoard] = useContext(StateContext) as StateContextType;
+	const [board, setBoard,
+		attempt, setAttempt,
+		currentSpot, setCurrentSpot] = useContext(StateContext) as StateContextType;
+	
+	const handleCurrentSpot = useCallback(() => {
+		setCurrentSpot(previousSpot => {
+			return { id: previousSpot.id, index: previousSpot.index + 1 }
+		})
+	}, [setCurrentSpot])
+	const handleLetter = useCallback(() => {
+	  
+	}, []);
+	
+	
+	const typeLetterOnBoard = useCallback((letter: string) => {
+		const newBoard = [...board]
+		newBoard[currentSpot.id - 1][currentSpot.index - 1] = letter
+		setBoard(newBoard)
+		handleCurrentSpot()
+	}, [board, currentSpot.id, currentSpot.index, setBoard, handleCurrentSpot])
 
-	return (
-		<div className={styles.board_container}>
-			<div className={styles.board_slots_container}>
-				{board.map((slotKey, index) => {
-					const slotKeyKey = slotKeys[index];
-					return (
-						<div data-board_slot key={slotKeyKey} className={styles.board_slot}>
-							{slotKey.map((innerKey, index) => {
-								const innerKeyKey = innerKeys[index];
-								return (
-									<div data-board_case key={innerKeyKey} className={styles.board_case}>
-										{innerKey}
-									</div>
-								);
-							})}
-						</div>
-					);
-				})}
-			</div>
-		</div>
-	);
+	const keyDown = useCallback((event: KeyboardEvent) => {
+		const key = event.key
+		if (alphabet.includes(key)) {
+			handleLetter()
+		}
+	}, [typeLetterOnBoard])
+
+	
+	useEffect(() => {
+		window.addEventListener("keyup", keyDown)
+		return () => window.removeEventListener("keyup", keyDown)
+	}, [keyDown])
+
+	return <BoardUI/>
 };
 
 export default Board;

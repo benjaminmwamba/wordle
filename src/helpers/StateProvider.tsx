@@ -4,7 +4,11 @@ import React, { useState, createContext, Dispatch, SetStateAction, useEffect } f
 
 
 
-export type StateContextType = [string[][], Dispatch<SetStateAction<string[][]>>, string, Dispatch<SetStateAction<string>>]
+export type StateContextType = [
+  string[][], Dispatch<SetStateAction<string[][]>>,
+  string, Dispatch<SetStateAction<string>>,
+  { id: number, index: number }, Dispatch<SetStateAction<{id: number, index: number}>>,
+]
 
 export const StateContext = createContext<StateContextType | undefined>(undefined) ;
 
@@ -21,6 +25,9 @@ const StateProvider = ({ children }: { children: any }) => {
 
   const initialAnswer = getNewGuess()
   const [answer, setAnswer] = useState<string>(initialAnswer)
+
+  const [currentSpot, setCurrentSpot] = useState<{id: number, index: number}>({id: 1, index: 1})
+
   useEffect(() => {
     console.log(answer)
   }, [answer])
@@ -30,7 +37,8 @@ const StateProvider = ({ children }: { children: any }) => {
   const [attempt, setAttempt] = useState<string>("");
   const newContextValue: StateContextType = [
     board, setBoard,
-    attempt, setAttempt
+    attempt, setAttempt,
+    currentSpot, setCurrentSpot
   ]
 
   return (
