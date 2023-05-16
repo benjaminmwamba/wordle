@@ -3,10 +3,7 @@ import React, { useState, createContext, Dispatch, SetStateAction } from "react"
 export type BoardStateType = [string[][], Dispatch<SetStateAction<string[][]>>]
 
 
-export interface AttemptStateType {
-  attempt: string;
-  setAttempt: Dispatch<SetStateAction<string>>;
-}
+export type AttemptStateType = [string,Dispatch<SetStateAction<string>>]
 
 export interface StateContextType {
   boardState: BoardStateType;
@@ -26,12 +23,9 @@ const StateProvider = ({ children }: {children: any}) => {
   ]);
   const [attempt, setAttempt] = useState<string>("");
 
-	const boardState: BoardStateType = [board,setBoard,]
+	const boardState: BoardStateType = [board,setBoard]
 
-  const attemptState: AttemptStateType = {
-    attempt,
-    setAttempt,
-  };
+	const attemptState: AttemptStateType = [attempt, setAttempt]
 
   const contextValue: StateContextType = {
     boardState,
