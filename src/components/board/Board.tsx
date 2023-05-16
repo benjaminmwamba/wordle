@@ -6,8 +6,7 @@ const slotKeys = ["3q35243g", "jgfiaj5w", "83838hg", "giisn8493", "jgfan5589", "
 const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"];
 
 const Board = () => {
-	const { boardState } = useContext(StateContext) as StateContextType;
-	const [board, setBoard] = boardState;
+	const [board, setBoard] = useContext(StateContext) as StateContextType;
 
 	return (
 		<div className={styles.board_container}>
