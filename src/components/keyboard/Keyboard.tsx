@@ -1,44 +1,58 @@
-import React, { useState } from "react";
-import styles from "src/styles/Keyboard.module.scss"
+import { StateContext, StateContextType } from "@/helpers/StateProvider";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { alphabet } from "../board/boardConstants";
+import KeyboardUI from "./KeyboardUI";
 
-const keyboardKeys = [
-	["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-	["", "a", "s", "d", "f", "g", "h", "j", "k", "l", ""],
-	["enter", "z", "x", "c", "v", "b", "n", "m", "fd"]
-];
+
 
 
 const Keyboard = () => {
-	return (
-		<div className={styles.keyboard_container}>
-			<div className={styles.touchpad_container}>
-				{
-					keyboardKeys.map((keySlot, index) => {
-						const slotType = () => {
-							if (keySlot.includes("q")) return "first"
-							if (keySlot.includes("")) return "second"
-							if (keySlot.includes("enter")) return "third"
-						}
 
-						return (
-							<div data-keyboard_slot_type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
-								{
-									keySlot.map((key, index) => {
+	const [board, setBoard,
+		attempt, setAttempt,
+		currentSpot, setCurrentSpot] = useContext(StateContext) as StateContextType;
 
-										return (
-											<div data-keyboard_key={key} key={(key + index)} className={styles.touchpad_key}>
-												{key}
-											</div>
-										)
-									})
-								}
-							</div>
-						)
-					})
-				}
-			</div>
-		</div>
-	)
+	const handleCurrentSpot = useCallback(() => {
+		setCurrentSpot(previousSpot => {
+			return { id: previousSpot.id, index: previousSpot.index + 1 }
+		})
+	}, [setCurrentSpot])
+	const handleLetter = useCallback(() => {
+		console.log("letter")
+	}, []);
+
+	const typeLetterOnBoard = useCallback((letter: string) => {
+		const newBoard = [...board]
+		newBoard[currentSpot.id - 1][currentSpot.index - 1] = letter
+		setBoard(newBoard)
+		handleCurrentSpot()
+	}, [board, currentSpot.id, currentSpot.index, setBoard, handleCurrentSpot])
+
+	const handleEnter = useCallback(() => {
+		console.log("Enter")
+	}, []);
+
+	const handleBackspace = () => {
+		console.log("Backspace")
+	}
+
+	const keyDown = useCallback((event: KeyboardEvent) => {
+		const key = event.key
+		if (alphabet.includes(key)) {
+			handleLetter()
+		} else if (key === "Enter") {
+			handleEnter()
+		} else if (key === "BackSpace") {
+			handleBackspace()
+		}
+	}, [handleEnter, handleLetter])
+
+
+	useEffect(() => {
+		window.addEventListener("keyup", keyDown)
+		return () => window.removeEventListener("keyup", keyDown)
+	}, [keyDown])
+	return <KeyboardUI />
 };
 
 
