@@ -11,21 +11,27 @@ const Keyboard = () => {
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
 
-	const handleCurrentSpot = useCallback(() => {
+	const handleCurrentSpotChange = useCallback(() => {
 		setCurrentSpot(previousSpot => {
-			return { id: previousSpot.id, index: previousSpot.index + 1 }
+			let newSpot;
+
+
+
+			newSpot = { id: previousSpot.id, index: previousSpot.index + 1 }
+			return newSpot
 		})
 	}, [setCurrentSpot])
-	const handleLetter = useCallback(() => {
-		console.log("letter")
-	}, []);
 
 	const typeLetterOnBoard = useCallback((letter: string) => {
 		const newBoard = [...board]
 		newBoard[currentSpot.id - 1][currentSpot.index - 1] = letter
 		setBoard(newBoard)
-		handleCurrentSpot()
-	}, [board, currentSpot.id, currentSpot.index, setBoard, handleCurrentSpot])
+		handleCurrentSpotChange()
+	}, [board, currentSpot.id, currentSpot.index, setBoard, handleCurrentSpotChange])
+	const handleLetter = useCallback((letter: string) => {
+		typeLetterOnBoard(letter)
+	}, [typeLetterOnBoard]);
+
 
 	const handleEnter = useCallback(() => {
 		console.log("Enter")
@@ -38,7 +44,7 @@ const Keyboard = () => {
 	const keyDown = useCallback((event: KeyboardEvent) => {
 		const key = event.key
 		if (alphabet.includes(key)) {
-			handleLetter()
+			handleLetter(key)
 		} else if (key === "Enter") {
 			handleEnter()
 		} else if (key === "BackSpace") {
