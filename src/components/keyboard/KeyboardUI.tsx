@@ -9,9 +9,6 @@ const keyboardKeys = [
 ];
 
 const KeyboardUI = () => {
-	const [board, setBoard,
-		attempt, setAttempt,
-		currentSpot, setCurrentSpot] = useContext(StateContext) as StateContextType;
 	return (
 		<div className={styles.keyboard_container}>
 			<div className={styles.touchpad_container}>

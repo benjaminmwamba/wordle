@@ -37,7 +37,7 @@ const Keyboard = () => {
 
 	const keyDown = useCallback((event: KeyboardEvent) => {
 		const key = event.key
-		if (alphabet.includes(key.toUpperCase())) {
+		if (alphabet.includes(key)) {
 			handleLetter()
 		} else if (key === "Enter") {
 			handleEnter()
