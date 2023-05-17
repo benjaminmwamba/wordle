@@ -2,6 +2,8 @@ import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import { EMPTY_STRING } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Keyboard.module.scss"
+import Image from "next/image";
+import deleteIcon from "public/deleteIcon.svg"
 
 const keyboardKeys = [
 	["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -25,10 +27,15 @@ const KeyboardUI = () => {
 							<div data-keyboard_slot_type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
 								{
 									keySlot.map((key, index) => {
-
+										console.log(key)
 										return (
 											<div data-keyboard_key={key} key={(key + index)} className={styles.touchpad_key}>
-												{key}
+												{
+													key === "fd" ? <Image style={{
+														color: "white",
+														fill: "white"
+													}} src={deleteIcon} alt="delete icon" /> : key
+												}
 											</div>
 										)
 									})

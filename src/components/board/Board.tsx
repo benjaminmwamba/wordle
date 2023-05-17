@@ -5,6 +5,7 @@ import { BACKSPACE_KEY_WORD, ENTER_KEY_WORD, alphabet } from "./boardConstants";
 import isValidWord from "@/utilities/words";
 import { changeBoardKeyBackgroundColor } from "./changeBoardKeyBackgroundColor";
 import { EMPTY_STRING } from "@/utilities/constants";
+import { GREEN, LIGHTER_GREY, ORANGE } from "@/utilities/colors";
 
 
 const Board = () => {
@@ -102,23 +103,35 @@ const Board = () => {
 		return () => window.removeEventListener("keyup", keyDown)
 	}, [keyDown])
 
+	
+	
 	const handleBoardKeyColor = useCallback(() => {
+		const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
 
-	}, [])
+		deepCopyBoard.forEach((row, rowIndex) => {
+			if (rowIndex !== currentSpot.id - 1) return
+			row.forEach((slot, slotIndex) => {
+				const { text } = slot;
+
+				if (!answer.includes(text)) {
+					slot.color = LIGHTER_GREY; // Change color to LIGHT_GREY if the letter is not in the answer
+				} else if (text === answer[slotIndex]) {
+					slot.color = GREEN; // Change color to GREEN if the letter is in the answer and at the same index as attempt
+				} else {
+					slot.color = ORANGE; // Change color to YELLOW if the letter is in the answer but not at the same index as attempt
+				}
+			});
+		});
+		setBoard(deepCopyBoard); // Update the state with the modified board
+	}, [answer, board, currentSpot.id, setBoard]);
 
 	useEffect(() => {
 		if (isWordValid === false) return
 
-		if (attempt.split(EMPTY_STRING).every(letter => answer.includes(letter))) {
-			console.log("every letter is equal")
-			handleBoardKeyColor
-		} else if (attempt.split(EMPTY_STRING).some(letter => answer.includes(letter))) {
-			console.log("some letters are equal")
-
-		}
+		handleBoardKeyColor()
 
 		setIsWordValid(false)
-	}, [answer, attempt, currentSpot.id, currentSpot.index, handleBoardKeyColor, isWordValid])
+	}, [handleBoardKeyColor, isWordValid])
 
 	return <BoardUI />
 };
