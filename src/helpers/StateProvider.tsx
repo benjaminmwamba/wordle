@@ -1,5 +1,5 @@
 import getNewGuess from "@/utilities/guesses";
-import React, { useState, createContext, Dispatch, SetStateAction } from "react";
+import React, { useState, createContext, Dispatch, SetStateAction, useEffect } from "react";
 
 type BoardStateType = [string[][], Dispatch<SetStateAction<string[][]>>]
 type AttemptStateType = [string, Dispatch<SetStateAction<string>>]
@@ -13,6 +13,8 @@ export interface StateContextType {
   currentSpotState: CurrentSpotType
 }
 
+const initialAnswer = getNewGuess()
+
 export const StateContext = createContext<StateContextType | undefined>(undefined);
 
 const StateProvider = ({ children }: { children: any }) => {
@@ -25,10 +27,12 @@ const StateProvider = ({ children }: { children: any }) => {
     ["", "", "", "", ""],
   ]);
   const [attempt, setAttempt] = useState<string>("");
-  const initialAnswer = getNewGuess()
   const [answer, setAnswer] = useState<string>(initialAnswer)
   const [currentSpot, setCurrentSpot] = useState<{ id: number, index: number }>({ id: 1, index: 1 })
-  const [isCurrentSlotFull, setIsCurrentSlotFull] = useState<boolean>(false)
+  
+  useEffect(() => {
+    console.log(answer)
+  }, [answer])
 
   const boardState: BoardStateType = [board, setBoard]
   const attemptState: AttemptStateType = [attempt, setAttempt]
