@@ -7,7 +7,7 @@ import { getSelectedBoardCase } from "./changeBoardKeyBackgroundColor";
 
 
 const Board = () => {
-	
+
 	const { boardState, currentSpotState, attemptState } = useContext(StateContext) as StateContextType;
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
@@ -48,7 +48,7 @@ const Board = () => {
 
 		const boardSlots = document.querySelectorAll("[data-board_slot]")
 		const selectedSlot: any = boardSlots[currentSpot.id - 1];
-		const selectedCases = [ ...selectedSlot.querySelectorAll("[data-board_case]")]
+		const selectedCases = [...selectedSlot.querySelectorAll("[data-board_case]")]
 
 		const lettersFromTheCurrentSlot = selectedCases.map((singleCase: any) => singleCase.innerText).join("")
 
@@ -61,11 +61,20 @@ const Board = () => {
 
 	const handleBackspace = useCallback(() => {
 		if (currentSpot.index === 1) return
+		
 		const newBoard = [...board]
-		newBoard[currentSpot.id][currentSpot.index] = "";
+		if (currentSpot.index === 6) {
+
+			newBoard[currentSpot.id - 1][currentSpot.index - 2] = "";
+		} else {
+			
+			newBoard[currentSpot.id - 1][currentSpot.index - 2] = "";
+		}
 		setBoard(newBoard)
-		setCurrentSpot({...currentSpot, index: currentSpot.index - 1})
-	}, [board, currentSpot, setBoard, setCurrentSpot])
+		setCurrentSpot(previousSpot => {
+			return { id: previousSpot.id, index: previousSpot.index - 1 }
+		})
+	}, [board, currentSpot.id, currentSpot.index, setBoard, setCurrentSpot])
 
 	const keyDown = useCallback((event: KeyboardEvent) => {
 		const key = event.key
@@ -73,7 +82,7 @@ const Board = () => {
 			handleLetter(key)
 		} else if (key === "Enter") {
 			handleEnter()
-		} else if (key === "BackSpace") {
+		} else if (key === "Backspace") {
 			handleBackspace()
 		}
 	}, [handleBackspace, handleEnter, handleLetter])
@@ -84,7 +93,7 @@ const Board = () => {
 		return () => window.removeEventListener("keyup", keyDown)
 	}, [keyDown])
 
-	return <BoardUI/>
+	return <BoardUI />
 };
 
 export default Board;
