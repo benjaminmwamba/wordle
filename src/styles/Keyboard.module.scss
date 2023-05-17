@@ -21,7 +21,7 @@ $key_gap: 6px;
 
 .touchpad_keyslot {
 	display: grid;
-	
+
 	gap: $key_gap;
 
 	&[data-keyboard_slot_type="first"] {
@@ -31,7 +31,7 @@ $key_gap: 6px;
 	&[data-keyboard_slot_type="second"] {
 		grid-template-columns: 0.5fr repeat(9, 1fr) 0.5fr;
 	}
-	
+
 	&[data-keyboard_slot_type="third"] {
 		grid-template-columns: 1.54fr repeat(7, 0.92fr) 1.54fr;
 	}
@@ -54,7 +54,8 @@ $key_gap: 6px;
 	&[data-keyboard_Key="enter"] {
 		font-size: 12px;
 	}
-	&[data-keyboard_Key=""] {
+
+	&[data-keyboard_Key=EMPTY_STRING] {
 		background-color: variables.$regular_background_color;
 	}
 }

@@ -3,7 +3,8 @@ import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import BoardUI from "./BoardUI";
 import { BACKSPACE_KEY_WORD, ENTER_KEY_WORD, alphabet } from "./boardConstants";
 import isValidWord from "@/utilities/words";
-import { getSelectedBoardCase } from "./changeBoardKeyBackgroundColor";
+import { changeBoardKeyBackgroundColor } from "./changeBoardKeyBackgroundColor";
+import { EMPTY_STRING } from "@/utilities/constants";
 
 
 const Board = () => {
@@ -15,8 +16,6 @@ const Board = () => {
 	const [answer, setAnswer] = answerState
 
 	const [isWordValid, setIsWordValid] = useState<boolean>(false)
-
-
 
 	const handleCurrentSpotChange = useCallback(() => {
 		setCurrentSpot((previousSpot) => {
@@ -31,7 +30,7 @@ const Board = () => {
 
 	const typeLetterOnBoard = useCallback((letter: string) => {
 		const newBoard = [...board]
-		newBoard[currentSpot.id - 1][currentSpot.index - 1] = letter
+		newBoard[currentSpot.id - 1][currentSpot.index - 1].text = letter
 		handleAttempt(letter)
 		setBoard(newBoard)
 		handleCurrentSpotChange()
@@ -55,11 +54,6 @@ const Board = () => {
 	const handleEnter = useCallback(() => {
 		if (currentSpot.index !== 6) return
 
-		const boardSlots = document.querySelectorAll("[data-board_slot]")
-		const selectedSlot: any = boardSlots[currentSpot.id - 1];
-		const selectedCases = [...selectedSlot.querySelectorAll("[data-board_case]")]
-
-		//const lettersFromTheCurrentSlot = selectedCases.map((singleCase: any) => singleCase.innerText).join("").toLocaleLowerCase()
 		//setAttempt(lettersFromTheCurrentSlot)
 		if (isValidWord(attempt) === true) {
 			handleWordIsValid()
@@ -67,7 +61,7 @@ const Board = () => {
 			handleWordIsInvalid()
 		}
 
-	}, [attempt, currentSpot.id, currentSpot.index, handleWordIsInvalid, handleWordIsValid]);
+	}, [attempt, currentSpot.index, handleWordIsInvalid, handleWordIsValid]);
 
 	const handleBackspace = useCallback(() => {
 		if (currentSpot.index === 1) return
@@ -75,11 +69,11 @@ const Board = () => {
 		const newBoard = [...board]
 		if (currentSpot.index === 6) {
 
-			newBoard[currentSpot.id - 1][currentSpot.index - 2] = "";
+			newBoard[currentSpot.id - 1][currentSpot.index - 2].text = EMPTY_STRING;
 			setIsWordValid(false)
 		} else {
 
-			newBoard[currentSpot.id - 1][currentSpot.index - 2] = "";
+			newBoard[currentSpot.id - 1][currentSpot.index - 2].text = EMPTY_STRING;
 		}
 		setAttempt(previousAttempt => {
 			const newAttempt = previousAttempt.slice(0, -1);
@@ -108,16 +102,23 @@ const Board = () => {
 		return () => window.removeEventListener("keyup", keyDown)
 	}, [keyDown])
 
+	const handleBoardKeyColor = useCallback(() => {
+
+	}, [])
+
 	useEffect(() => {
 		if (isWordValid === false) return
 
-		if (attempt.split("").every(letter => answer.includes(letter))) {
+		if (attempt.split(EMPTY_STRING).every(letter => answer.includes(letter))) {
 			console.log("every letter is equal")
-		} else if (attempt.split("").some(letter => answer.includes(letter))) {
+			handleBoardKeyColor
+		} else if (attempt.split(EMPTY_STRING).some(letter => answer.includes(letter))) {
 			console.log("some letters are equal")
+
 		}
+
 		setIsWordValid(false)
-	}, [answer, attempt, isWordValid])
+	}, [answer, attempt, currentSpot.id, currentSpot.index, handleBoardKeyColor, isWordValid])
 
 	return <BoardUI />
 };

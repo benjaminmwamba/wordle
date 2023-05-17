@@ -1,10 +1,11 @@
+import { EMPTY_STRING } from "@/utilities/constants";
 import getNewGuess from "@/utilities/guesses";
 import React, { useState, createContext, Dispatch, SetStateAction, useEffect } from "react";
 
-type BoardStateType = [string[][], Dispatch<SetStateAction<string[][]>>]
+type BoardStateType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
 type AttemptStateType = [string, Dispatch<SetStateAction<string>>]
 type AnswerStateType = [string, Dispatch<SetStateAction<string>>]
-type CurrentSpotType = [{ id: number, index: number }, Dispatch<SetStateAction<{id: number, index: number}>>]
+type CurrentSpotType = [{ id: number, index: number }, Dispatch<SetStateAction<{ id: number, index: number }>>]
 
 export interface StateContextType {
   boardState: BoardStateType;
@@ -14,22 +15,23 @@ export interface StateContextType {
 }
 
 const initialAnswer = getNewGuess()
+const initialBoardState: { color: string, text: string }[][] = [
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+  [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+];
 
 export const StateContext = createContext<StateContextType | undefined>(undefined);
 
 const StateProvider = ({ children }: { children: any }) => {
-  const [board, setBoard] = useState<string[][]>([
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-  ]);
-  const [attempt, setAttempt] = useState<string>("");
+  const [board, setBoard] = useState<{ color: string, text: string }[][]>(initialBoardState);
+  const [attempt, setAttempt] = useState<string>(EMPTY_STRING);
   const [answer, setAnswer] = useState<string>(initialAnswer)
   const [currentSpot, setCurrentSpot] = useState<{ id: number, index: number }>({ id: 1, index: 1 })
-  
+
   useEffect(() => {
     console.log(answer)
   }, [answer])

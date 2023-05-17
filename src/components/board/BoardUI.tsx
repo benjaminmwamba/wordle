@@ -1,4 +1,6 @@
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
+import { REGULAR_BACKGROUND_COLOR } from "@/utilities/colors";
+import { EMPTY_STRING } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Board.module.scss";
 
@@ -20,11 +22,13 @@ const BoardUI = () => {
 					const slotKeyKey = slotKeys[index];
 					return (
 						<div data-board_slot key={slotKeyKey} className={styles.board_slot}>
-							{slotKey.map((innerKey, index) => {
+							{slotKey.map(({ color, text }, index) => {
 								const innerKeyKey = innerKeys[index];
 								return (
-									<div data-board_case key={innerKeyKey} className={styles.board_case}>
-										{innerKey}
+									<div key={innerKeyKey} style={{
+										backgroundColor: color === EMPTY_STRING ? REGULAR_BACKGROUND_COLOR : color
+									}} data-board_case className={styles.board_case}>
+										{text}
 									</div>
 								);
 							})}

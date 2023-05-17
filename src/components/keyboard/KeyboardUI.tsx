@@ -1,10 +1,11 @@
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
+import { EMPTY_STRING } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Keyboard.module.scss"
 
 const keyboardKeys = [
 	["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-	["", "a", "s", "d", "f", "g", "h", "j", "k", "l", ""],
+	[EMPTY_STRING, "a", "s", "d", "f", "g", "h", "j", "k", "l", EMPTY_STRING],
 	["enter", "z", "x", "c", "v", "b", "n", "m", "fd"]
 ];
 
@@ -16,7 +17,7 @@ const KeyboardUI = () => {
 					keyboardKeys.map((keySlot, index) => {
 						const slotType = () => {
 							if (keySlot.includes("q")) return "first"
-							if (keySlot.includes("")) return "second"
+							if (keySlot.includes(EMPTY_STRING)) return "second"
 							if (keySlot.includes("enter")) return "third"
 						}
 
