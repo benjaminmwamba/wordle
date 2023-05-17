@@ -10,8 +10,8 @@ const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"];
 
 const BoardUI = () => {
 
-	const {boardState} = useContext(StateContext) as StateContextType;
-	const [board, setBoard] = boardState
+	const { boardState } = useContext(StateContext) as StateContextType;
+	const [board] = boardState
 
 	return (
 		<div className={styles.board_container}>
