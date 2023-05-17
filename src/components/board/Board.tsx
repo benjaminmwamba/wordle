@@ -3,13 +3,16 @@ import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import BoardUI from "./BoardUI";
 import { alphabet } from "./boardConstants";
 import isValidWord from "@/utilities/words";
+import { getSelectedBoardCase } from "./changeBoardKeyBackgroundColor";
 
 
 const Board = () => {
 	
-	const { boardState, currentSpotState } = useContext(StateContext) as StateContextType;
+	const { boardState, currentSpotState, attemptState } = useContext(StateContext) as StateContextType;
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
+	const [attempt, setAttempt] = attemptState
+
 	const [isSlotFinished, setIsSlotFinished] = useState<boolean>(false)
 
 	const handleSlotFinished = () => {
@@ -36,14 +39,33 @@ const Board = () => {
 		typeLetterOnBoard(letter)
 	}, [currentSpot.id, currentSpot.index, typeLetterOnBoard]);
 
+	const handleWordIsInvalid = () => {
+		console.log("the word you entered is invalid")
+	}
 
 	const handleEnter = useCallback(() => {
-		
-	}, []);
+		if (currentSpot.index !== 6) return
 
-	const handleBackspace = () => {
-		console.log("Backspace")
-	}
+		const boardSlots = document.querySelectorAll("[data-board_slot]")
+		const selectedSlot: any = boardSlots[currentSpot.id - 1];
+		const selectedCases = [ ...selectedSlot.querySelectorAll("[data-board_case]")]
+
+		const lettersFromTheCurrentSlot = selectedCases.map((singleCase: any) => singleCase.innerText).join("")
+
+		if (isValidWord(lettersFromTheCurrentSlot) === false) {
+			handleWordIsInvalid()
+			return
+		}
+
+	}, [currentSpot.id, currentSpot.index]);
+
+	const handleBackspace = useCallback(() => {
+		if (currentSpot.index === 1) return
+		const newBoard = [...board]
+		newBoard[currentSpot.id][currentSpot.index] = "";
+		setBoard(newBoard)
+		setCurrentSpot({...currentSpot, index: currentSpot.index - 1})
+	}, [board, currentSpot, setBoard, setCurrentSpot])
 
 	const keyDown = useCallback((event: KeyboardEvent) => {
 		const key = event.key
@@ -54,7 +76,7 @@ const Board = () => {
 		} else if (key === "BackSpace") {
 			handleBackspace()
 		}
-	}, [handleEnter, handleLetter])
+	}, [handleBackspace, handleEnter, handleLetter])
 
 
 	useEffect(() => {
