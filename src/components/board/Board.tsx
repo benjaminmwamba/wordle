@@ -1,7 +1,8 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import BoardUI from "./BoardUI";
 import { alphabet } from "./boardConstants";
+import isValidWord from "@/utilities/words";
 
 
 const Board = () => {
@@ -9,23 +10,15 @@ const Board = () => {
 	const { boardState, currentSpotState } = useContext(StateContext) as StateContextType;
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
+	const [isSlotFinished, setIsSlotFinished] = useState<boolean>(false)
+
+	const handleSlotFinished = () => {
+
+	}
 
 	const handleCurrentSpotChange = useCallback(() => {
-		setCurrentSpot(previousSpot => {
-			let newSpot;
-
-			if (previousSpot.id === 6 && previousSpot.index === 5) {
-				console.log("all the cases are filled")
-				return previousSpot
-			}
-			if (previousSpot.index === 5) {
-				newSpot = { id: previousSpot.id + 1, index: 1 }
-			} else {
-				newSpot = { ...previousSpot, index: previousSpot.index + 1 }
-			}
-
-			newSpot = { id: previousSpot.id, index: previousSpot.index + 1 }
-			return newSpot
+		setCurrentSpot((previousSpot) => {
+			return { id: previousSpot.id, index: previousSpot.index + 1 }
 		})
 	}, [setCurrentSpot])
 
@@ -36,12 +29,16 @@ const Board = () => {
 		handleCurrentSpotChange()
 	}, [board, currentSpot.id, currentSpot.index, setBoard, handleCurrentSpotChange])
 	const handleLetter = useCallback((letter: string) => {
+		if (currentSpot.id === 7 && currentSpot.index === 1) {
+			console.log("the board is full")
+			return
+		} else if (currentSpot.index === 6) return
 		typeLetterOnBoard(letter)
-	}, [typeLetterOnBoard]);
+	}, [currentSpot.id, currentSpot.index, typeLetterOnBoard]);
 
 
 	const handleEnter = useCallback(() => {
-		console.log("Enter")
+		
 	}, []);
 
 	const handleBackspace = () => {
