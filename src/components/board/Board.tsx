@@ -69,16 +69,17 @@ const Board = () => {
 		deepCopyKeyboard.forEach((keys) => {
 			keys.forEach((key, slotIndex) => {
 				const { text } = key;
-				if (!attempt.includes(text)) return
+				if (attempt.includes(text) === false) return
 				if (text === EMPTY_STRING) return
-				
+
 				if (!answer.includes(text)) {
 					key.color = LIGHTER_GREY; //Change color to LIGHT_GREY if the letter is not in the answer
-				} else if (text === answer[slotIndex]) {
-					key.color = ORANGE; // Change color to GREEN if the letter is in the answer and at the same index as attempt
+				} else if (answer.indexOf(text) === attempt.indexOf(text)) {
+					key.color = GREEN; // Change color to GREEN if the letter is in the answer and at the same index as attempt
 				} else {
-					key.color = GREEN; // Change color to YELLOW if the letter is in the answer but not at the same index as attempt
+					key.color = ORANGE; // Change color to YELLOW if the letter is in the answer but not at the same index as attempt
 				}
+
 			});
 		});
 		setKeyboardKeys(deepCopyKeyboard)
