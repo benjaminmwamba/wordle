@@ -3,6 +3,7 @@ import { REGULAR_BACKGROUND_COLOR } from "@/utilities/colors";
 import { EMPTY_STRING } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Board.module.scss";
+import Gameover from "../Modals/Gameover";
 
 
 
@@ -12,11 +13,15 @@ const innerKeys = ["abc123", "qwe456", "bnm812", "mcv534", "bjf342"];
 
 const BoardUI = () => {
 
-	const { boardState } = useContext(StateContext) as StateContextType;
+	const { boardState, isGameOverState } = useContext(StateContext) as StateContextType;
 	const [board] = boardState
+	const [isGameOver] = isGameOverState
+	
+	
 
 	return (
 		<div className={styles.board_container}>
+			{isGameOver && <Gameover header="start over" />}
 			<div className={styles.board_slots_container}>
 				{board.map((slotKey, index) => {
 					const slotKeyKey = slotKeys[index];

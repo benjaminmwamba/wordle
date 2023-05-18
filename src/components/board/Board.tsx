@@ -3,7 +3,6 @@ import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import BoardUI from "./BoardUI";
 import { BACKSPACE_KEY_WORD, ENTER_KEY_WORD, alphabet } from "./boardConstants";
 import isValidWord from "@/utilities/words";
-import { changeBoardKeyBackgroundColor } from "./changeBoardKeyBackgroundColor";
 import { EMPTY_STRING } from "@/utilities/constants";
 import { GREEN, LIGHTER_GREY, ORANGE } from "@/utilities/colors";
 import styles from "src/styles/Board.module.scss"
@@ -18,7 +17,7 @@ const Board = () => {
 	const [answer] = answerState
 	const [isAllowedToWrite, setIsAllowedToWrite] = useState<boolean>(true)
 	const [keyboardKeys, setKeyboardKeys] = keyboardKeysState
-
+	const [isGameOver, setIsGameOver] = useState<boolean>(false)
 	const [isWordValid, setIsWordValid] = useState<boolean>(false)
 
 	const handleCurrentSpotChange = useCallback(() => {

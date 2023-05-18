@@ -6,14 +6,16 @@ type BoardStateType = [{ color: string, text: string }[][], Dispatch<SetStateAct
 type AttemptStateType = [string, Dispatch<SetStateAction<string>>]
 type AnswerStateType = [string, Dispatch<SetStateAction<string>>]
 type CurrentSpotType = [{ id: number, index: number }, Dispatch<SetStateAction<{ id: number, index: number }>>]
-type keyboardKeysType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
+type KeyboardKeysType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
+type IsGameOverType = [boolean, Dispatch<SetStateAction<boolean>>]
 
 export interface StateContextType {
   boardState: BoardStateType;
   attemptState: AttemptStateType;
   answerState: AnswerStateType,
   currentSpotState: CurrentSpotType,
-  keyboardKeysState: keyboardKeysType
+  keyboardKeysState: KeyboardKeysType,
+  isGameOverState: IsGameOverType
 }
 
 const initialAnswer = getNewGuess()
@@ -72,6 +74,7 @@ const StateProvider = ({ children }: { children: any }) => {
   const [currentSpot, setCurrentSpot] = useState<{ id: number, index: number }>({ id: 1, index: 1 })
   
   const [keyboardKeys, setKeyboardKeys] = useState<{ color: string, text: string }[][]>(initialKeyboardKeys)
+  const [isGameOver, setIsGameOver] = useState<boolean>(true)
 
   useEffect(() => {
     console.log(answer)
@@ -81,7 +84,8 @@ const StateProvider = ({ children }: { children: any }) => {
   const attemptState: AttemptStateType = [attempt, setAttempt]
   const answerState: AnswerStateType = [answer, setAnswer]
   const currentSpotState: CurrentSpotType = [currentSpot, setCurrentSpot]
-  const keyboardKeysState: keyboardKeysType = [keyboardKeys, setKeyboardKeys]
+  const keyboardKeysState: KeyboardKeysType = [keyboardKeys, setKeyboardKeys]
+  const isGameOverState: IsGameOverType = [isGameOver, setIsGameOver]
 
 
   const contextValue: StateContextType = {
@@ -89,7 +93,8 @@ const StateProvider = ({ children }: { children: any }) => {
     attemptState,
     answerState,
     currentSpotState,
-    keyboardKeysState
+    keyboardKeysState,
+    isGameOverState
   };
 
   return (
