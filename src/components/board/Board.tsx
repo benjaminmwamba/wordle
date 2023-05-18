@@ -6,6 +6,7 @@ import isValidWord from "@/utilities/words";
 import { changeBoardKeyBackgroundColor } from "./changeBoardKeyBackgroundColor";
 import { EMPTY_STRING } from "@/utilities/constants";
 import { GREEN, LIGHTER_GREY, ORANGE } from "@/utilities/colors";
+import styles from "src/styles/Board.module.scss"
 
 
 const Board = () => {
@@ -14,7 +15,8 @@ const Board = () => {
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
 	const [attempt, setAttempt] = attemptState
-	const [answer, setAnswer] = answerState
+	const [answer] = answerState
+	const [isAllowedToWrite, setIsAllowedToWrite] = useState<boolean>(true)
 
 	const [isWordValid, setIsWordValid] = useState<boolean>(false)
 
@@ -46,7 +48,18 @@ const Board = () => {
 
 	const handleWordIsInvalid = useCallback(() => {
 		console.log("the word you entered is invalid")
-	}, [])
+		console.log("try typing another word")
+		const boardSlots = document.querySelectorAll(`[data-board_slot]`);
+		const currentSlot = boardSlots[currentSpot.id - 1];
+
+		const allSelectedCases = currentSlot.querySelectorAll("[data-board_case]")
+		allSelectedCases.forEach(boardCase => {
+			boardCase.classList.add(styles.shake_animation)
+			setTimeout(() => {
+				boardCase.classList.remove(styles.shake_animation)	
+			}, 1100);
+		})
+	}, [currentSpot.id])
 	const handleWordIsValid = useCallback(() => {
 		console.log("the word you entered is valid")
 		setIsWordValid(true)
@@ -56,6 +69,7 @@ const Board = () => {
 		if (currentSpot.index !== 6) return
 
 		//setAttempt(lettersFromTheCurrentSlot)
+		console.log("attempt:", attempt)
 		if (isValidWord(attempt) === true) {
 			handleWordIsValid()
 		} else {
@@ -86,7 +100,8 @@ const Board = () => {
 		})
 	}, [board, currentSpot.id, currentSpot.index, setAttempt, setBoard, setCurrentSpot])
 
-	const keyDown = useCallback((event: KeyboardEvent) => {
+	const keyUp = useCallback((event: KeyboardEvent) => {
+		if (isAllowedToWrite === false) return
 		const key = event.key
 		if (alphabet.includes(key)) {
 			handleLetter(key)
@@ -95,18 +110,19 @@ const Board = () => {
 		} else if (key === BACKSPACE_KEY_WORD) {
 			handleBackspace()
 		}
-	}, [handleBackspace, handleEnter, handleLetter])
+	}, [handleBackspace, handleEnter, handleLetter, isAllowedToWrite])
 
 
 	useEffect(() => {
-		window.addEventListener("keyup", keyDown)
-		return () => window.removeEventListener("keyup", keyDown)
-	}, [keyDown])
+		window.addEventListener("keyup", keyUp)
+		return () => window.removeEventListener("keyup", keyUp)
+	}, [keyUp])
 
 	
 	
 	const handleBoardKeyColor = useCallback(() => {
 		const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
+		let everyLetterThatMatches: string[] = []
 
 		deepCopyBoard.forEach((row, rowIndex) => {
 			if (rowIndex !== currentSpot.id - 1) return
@@ -114,16 +130,26 @@ const Board = () => {
 				const { text } = slot;
 
 				if (!answer.includes(text)) {
-					slot.color = LIGHTER_GREY; // Change color to LIGHT_GREY if the letter is not in the answer
+					slot.color = LIGHTER_GREY; //Change color to LIGHT_GREY if the letter is not in the answer
 				} else if (text === answer[slotIndex]) {
 					slot.color = GREEN; // Change color to GREEN if the letter is in the answer and at the same index as attempt
+					everyLetterThatMatches.push(text)
 				} else {
 					slot.color = ORANGE; // Change color to YELLOW if the letter is in the answer but not at the same index as attempt
 				}
 			});
 		});
+		
 		setBoard(deepCopyBoard); // Update the state with the modified board
-	}, [answer, board, currentSpot.id, setBoard]);
+		setCurrentSpot(previousSpot => {
+			return {id: previousSpot.id + 1, index: 1}
+		})
+		setAttempt("")
+		if (everyLetterThatMatches.join("") === answer) {
+			console.log("every letter matches")
+			setIsAllowedToWrite(false)
+		}
+	}, [answer, board, currentSpot.id, setAttempt, setBoard, setCurrentSpot]);
 
 	useEffect(() => {
 		if (isWordValid === false) return
