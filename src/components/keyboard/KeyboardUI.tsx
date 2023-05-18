@@ -27,7 +27,6 @@ const KeyboardUI = () => {
 							<div data-keyboard_slot_type={slotType()} key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
 								{
 									keySlot.map((key, index) => {
-										console.log(key)
 										return (
 											<div data-keyboard_key={key} key={(key + index)} className={styles.touchpad_key}>
 												{
