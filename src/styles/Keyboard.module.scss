@@ -24,15 +24,15 @@ $key_gap: 6px;
 
 	gap: $key_gap;
 
-	&[data-keyboard_slot_type="first"] {
+	&[data-keyboard_slot_type]:nth-child(1) {
 		grid-template-columns: repeat(10, 1fr);
 	}
 
-	&[data-keyboard_slot_type="second"] {
+	&[data-keyboard_slot_type]:nth-child(2) {
 		grid-template-columns: 0.5fr repeat(9, 1fr) 0.5fr;
 	}
 
-	&[data-keyboard_slot_type="third"] {
+	&[data-keyboard_slot_type]:nth-child(3) {
 		grid-template-columns: 1.54fr repeat(7, 0.92fr) 1.54fr;
 	}
 }
@@ -55,9 +55,9 @@ $key_gap: 6px;
 		font-size: 12px;
 	}
 
-	&[data-keyboard_Key=""] {
+	&[data-keyboard_Key=EMPTY_STRING] {
 		background-color: variables.$regular_background_color;
 	}
 
-	
+
 }
