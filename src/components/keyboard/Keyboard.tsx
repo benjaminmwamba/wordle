@@ -1,12 +1,56 @@
-import KeyboardUI from "./KeyboardUI";
+import { StateContext, StateContextType } from "@/helpers/StateProvider";
+import { EMPTY_STRING } from "@/utilities/constants";
+import React, { useContext } from "react";
+import styles from "src/styles/Keyboard.module.scss"
+import Image from "next/image";
+import deleteIcon from "public/deleteIcon.svg"
+import { BRIGHT_GREY, REGULAR_BACKGROUND_COLOR } from "@/utilities/colors";
 
 
+const KeyboardUI = () => {
+	const { keyboardKeysState } = useContext(StateContext) as StateContextType
+	const [keyboardKeys] = keyboardKeysState
 
+	return (
+		<div className={styles.keyboard_container}>
+			<div className={styles.touchpad_container}>
+				{
+					keyboardKeys.map((keySlot, index) => {
 
-const Keyboard = () => {
-	
-	return <KeyboardUI />
+						return (
+							<div data-keyboard_slot_type key={(index + "ifdsj3")} className={styles.touchpad_keyslot}>
+								{
+									keySlot.map(({ color, text }, index) => {
+										const getBackgroundColor = () => {
+											if (color === EMPTY_STRING && text === EMPTY_STRING) {
+												return REGULAR_BACKGROUND_COLOR
+											} else if (color === EMPTY_STRING && text !== EMPTY_STRING) {
+												return BRIGHT_GREY
+											} else {
+												return color
+											}
+										}
+										return (
+											<div style={{
+												backgroundColor: getBackgroundColor()
+											}} data-keyboard_key={text} key={(text + index)} className={styles.touchpad_key}>
+												{
+													text === "fd" ? <Image style={{
+														color: "white",
+														fill: "white"
+													}} src={deleteIcon} alt="delete icon" /> : text
+												}
+											</div>
+										)
+									})
+								}
+							</div>
+						)
+					})
+				}
+			</div>
+		</div>
+	)
 };
 
-
-export default Keyboard;
+export default KeyboardUI;

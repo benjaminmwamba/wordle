@@ -55,7 +55,7 @@ $key_gap: 6px;
 		font-size: 12px;
 	}
 
-	&[data-keyboard_Key=EMPTY_STRING] {
+	&[data-keyboard_Key=""] {
 		background-color: variables.$regular_background_color;
 	}
 

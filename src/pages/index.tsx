@@ -1,14 +1,20 @@
-import { Inter } from 'next/font/google'
-import { useContext, useEffect, useState } from 'react'
+import React from "react";
+import styles from "../styles/WordleUI.module.scss"
+import Keyboard from "@/components/keyboard/Keyboard";
+import Board from "@/components/board/Board";
 
-import WordleUI from '@/components/WordleUI'
-import { StateContext, StateContextType } from '@/helpers/StateProvider'
+const WordleUI = () => {
+  return (
+    <div className={styles.app_container}>
+      <nav className={styles.navbar}>
+        <h2 className={styles.wordle_title}>wordle</h2>
+      </nav>
+      <section className={styles.lower_part}>
+        <Board />
+        <Keyboard />
+      </section>
+    </div>
+  )
+};
 
-
-const inter = Inter({ subsets: ['latin'] })
-
-
-export default function Home() {
-
-  return <WordleUI />
-}
+export default WordleUI;
