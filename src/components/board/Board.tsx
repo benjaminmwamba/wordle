@@ -1,9 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import BoardUI from "./BoardUI";
-import { BACKSPACE_KEY_WORD, ENTER_KEY_WORD, alphabet } from "./boardConstants";
 import isValidWord from "@/utilities/words";
-import { EMPTY_STRING } from "@/utilities/constants";
+import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, LAST_INDEX, LAST_SLOT, isLetterInAlphabet } from "@/utilities/constants";
 import { GREEN, LIGHTER_GREY, ORANGE } from "@/utilities/colors";
 import styles from "src/styles/Board.module.scss"
 
@@ -22,7 +21,9 @@ const Board = () => {
 
 	const handleCurrentSpotChange = useCallback(() => {
 		setCurrentSpot((previousSpot) => {
-			return { id: previousSpot.id, index: previousSpot.index + 1 }
+			const PREVIOUS_SLOT = previousSpot.id
+			const PREVIOUS_INDEX = previousSpot.index + 1
+			return { id: PREVIOUS_SLOT, index: PREVIOUS_INDEX }
 		})
 	}, [setCurrentSpot])
 
@@ -38,11 +39,11 @@ const Board = () => {
 		setBoard(newBoard)
 		handleCurrentSpotChange()
 	}, [board, currentSpot.id, currentSpot.index, handleAttempt, setBoard, handleCurrentSpotChange])
-	const handleLetter = useCallback((letter: string) => {
-		if (currentSpot.id === 7 && currentSpot.index === 1) {
+	const handleLetter = useCallback((letter: string): void => {
+		if (currentSpot.id === LAST_SLOT && currentSpot.index === FIRST_INDEX) {
 			console.log("the board is full")
 			return
-		} else if (currentSpot.index === 6) return
+		} else if (currentSpot.index === LAST_INDEX) return
 		typeLetterOnBoard(letter)
 	}, [currentSpot.id, currentSpot.index, typeLetterOnBoard]);
 
@@ -57,7 +58,7 @@ const Board = () => {
 			boardCase.classList.add(styles.shake_animation)
 			setTimeout(() => {
 				boardCase.classList.remove(styles.shake_animation)
-			}, 1100);
+			}, DELAY_FOR_RESETTING_CASE_COLOR);
 		})
 	}, [currentSpot.id])
 
@@ -92,7 +93,7 @@ const Board = () => {
 
 	
 	const handleEnter = useCallback(() => {
-		if (currentSpot.index !== 6) return
+		if (currentSpot.index !== LAST_INDEX) return
 
 		//setAttempt(lettersFromTheCurrentSlot)
 		console.log("attempt:", attempt)
@@ -104,10 +105,10 @@ const Board = () => {
 	}, [attempt, currentSpot.index, handleWordIsInvalid, handleWordIsValid]);
 
 	const handleBackspace = useCallback(() => {
-		if (currentSpot.index === 1) return
+		if (currentSpot.index === FIRST_INDEX) return
 
 		const newBoard = [...board]
-		if (currentSpot.index === 6) {
+		if (currentSpot.index === LAST_INDEX) {
 
 			newBoard[currentSpot.id - 1][currentSpot.index - 2].text = EMPTY_STRING;
 			setIsWordValid(false)
@@ -121,14 +122,16 @@ const Board = () => {
 		})
 		setBoard(newBoard)
 		setCurrentSpot(previousSpot => {
-			return { id: previousSpot.id, index: previousSpot.index - 1 }
+			const CURRENT_SLOT = previousSpot.id
+			const PREVIOUS_INDEX = previousSpot.index - 1
+			return { id: CURRENT_SLOT, index: PREVIOUS_INDEX }
 		})
 	}, [board, currentSpot.id, currentSpot.index, setAttempt, setBoard, setCurrentSpot])
 
 	const keyUp = useCallback((event: KeyboardEvent) => {
 		if (isAllowedToWrite === false) return
 		const key = event.key
-		if (alphabet.includes(key)) {
+		if (isLetterInAlphabet(key)) {
 			handleLetter(key)
 		} else if (key === ENTER_KEY_WORD) {
 			handleEnter()
@@ -143,14 +146,13 @@ const Board = () => {
 		return () => window.removeEventListener("keyup", keyUp)
 	}, [keyUp])
 
-
-
 	const handleBoardKeyColor = useCallback(() => {
 		const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
 		let everyLetterThatMatches: string[] = []
 
 		deepCopyBoard.forEach((row, rowIndex) => {
-			if (rowIndex !== currentSpot.id - 1) return
+			const CURRENT_SPOT_IN_INDEX_NOTATION = currentSpot.id - 1
+			if (rowIndex !== CURRENT_SPOT_IN_INDEX_NOTATION) return
 			row.forEach((slot, slotIndex) => {
 				const { text } = slot;
 
@@ -167,7 +169,8 @@ const Board = () => {
 
 		setBoard(deepCopyBoard); // Update the state with the modified board
 		setCurrentSpot(previousSpot => {
-			return { id: previousSpot.id + 1, index: 1 }
+			const NEXT_SLOT = previousSpot.id + 1
+			return { id: NEXT_SLOT, index: FIRST_INDEX }
 		})
 		setAttempt(EMPTY_STRING)
 		if (everyLetterThatMatches.join(EMPTY_STRING) === answer) {
