@@ -6,7 +6,7 @@ import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER
 import styles from "src/styles/Board.module.scss"
 
 const Index: React.FC = () => {
-  const { boardState, currentSpotState, attemptState, answerState, keyboardKeysState, isGameOverState} = useContext(StateContext) as StateContextType;
+  const { boardState, currentSpotState, attemptState, answerState, keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
   const [board, setBoard] = boardState
   const [currentSpot, setCurrentSpot] = currentSpotState
   const [attempt, setAttempt] = attemptState
@@ -15,7 +15,7 @@ const Index: React.FC = () => {
   const [keyboardKeys, setKeyboardKeys] = keyboardKeysState
   const [isWordValid, setIsWordValid] = useState<boolean>(false);
   const [isGameOver, setIsGameOver] = isGameOverState
-  
+
   const handleCurrentSpotChange = useCallback(() => {
     setCurrentSpot((previousSpot) => {
       const PREVIOUS_SLOT = previousSpot.id
@@ -143,9 +143,24 @@ const Index: React.FC = () => {
     return () => window.removeEventListener("keyup", keyUp)
   }, [keyUp])
 
+  const getEveryLetterThatMatchesAttemptAndAnswer = useCallback((): string => {
+    const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
+
+    const CURRENT_SPOT_IN_INDEX_NOTATION = currentSpot.id - 1
+    const targetRow = deepCopyBoard[CURRENT_SPOT_IN_INDEX_NOTATION];
+
+    const everyLetterThatMatches: string[] = targetRow
+      .filter((slot, slotIndex) => slot.text === answer[slotIndex])
+      .map((slot) => slot.text);
+    return everyLetterThatMatches.join("")
+  }, [answer, board, currentSpot.id])
+
+  const isAttemptEqualToAnswer = useCallback(() => {
+    return getEveryLetterThatMatchesAttemptAndAnswer() === answer
+  }, [answer, getEveryLetterThatMatchesAttemptAndAnswer])
+
   const handleBoardKeyColor = useCallback(() => {
     const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
-    let everyLetterThatMatches: string[] = []
 
     deepCopyBoard.forEach((row, rowIndex) => {
       const CURRENT_SPOT_IN_INDEX_NOTATION = currentSpot.id - 1
@@ -157,7 +172,6 @@ const Index: React.FC = () => {
           slot.color = LIGHTER_GREY; //Change color to LIGHT_GREY if the letter is not in the answer
         } else if (text === answer[slotIndex]) {
           slot.color = GREEN; // Change color to GREEN if the letter is in the answer and at the same index as attempt
-          everyLetterThatMatches.push(text)
         } else {
           slot.color = ORANGE; // Change color to YELLOW if the letter is in the answer but not at the same index as attempt
         }
@@ -170,11 +184,11 @@ const Index: React.FC = () => {
       return { id: NEXT_SLOT, index: FIRST_INDEX }
     })
     setAttempt(EMPTY_STRING)
-    if (everyLetterThatMatches.join(EMPTY_STRING) === answer) {
-      console.log("every letter matches")
+    if (isAttemptEqualToAnswer()) {
       setIsAllowedToWrite(false)
+      setIsGameOver(true)
     }
-  }, [answer, board, currentSpot.id, setAttempt, setBoard, setCurrentSpot]);
+  }, [answer, board, currentSpot.id, isAttemptEqualToAnswer, setAttempt, setBoard, setCurrentSpot, setIsGameOver]);
 
   useEffect(() => {
     if (isWordValid === false) return
@@ -190,7 +204,7 @@ const Index: React.FC = () => {
     return window.removeEventListener("keyup", keyUp)
   }, [isGameOver, keyUp])
 
-  return <WordleUI/>
+  return <WordleUI />
 };
 
 export default Index;
