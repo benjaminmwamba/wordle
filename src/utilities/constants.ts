@@ -9,3 +9,9 @@ export const LAST_INDEX = 6;
 export const DELAY_FOR_RESETTING_CASE_COLOR = 1100;
 export const LAST_SLOT = 7;
 export const FIRST_INDEX = 1;
+
+export const GREEN = "#538d4e";
+export const ORANGE = "#b59f3b"
+export const BRIGHT_GREY = "#818384"
+export const LIGHTER_GREY = "#3a3a3c"
+export const REGULAR_BACKGROUND_COLOR = "#121213"

@@ -1,10 +1,9 @@
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
-import { EMPTY_STRING } from "@/utilities/constants";
+import { BRIGHT_GREY, EMPTY_STRING, REGULAR_BACKGROUND_COLOR } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Keyboard.module.scss"
 import Image from "next/image";
 import deleteIcon from "public/deleteIcon.svg"
-import { BRIGHT_GREY, REGULAR_BACKGROUND_COLOR } from "@/utilities/colors";
 
 
 const KeyboardUI = () => {

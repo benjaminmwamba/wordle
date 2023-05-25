@@ -15,7 +15,8 @@ export interface StateContextType {
   answerState: AnswerStateType,
   currentSpotState: CurrentSpotType,
   keyboardKeysState: KeyboardKeysType,
-  isGameOverState: IsGameOverType
+  isGameOverState: IsGameOverType,
+  startOver: () => void
 }
 
 const initialAnswer = getNewGuess()
@@ -64,6 +65,7 @@ const initialKeyboardKeys: { color: string, text: string }[][] = [
     { color: EMPTY_STRING, text: "fd" }
   ]
 ];
+const initialCurrentSpot = { id: 1, index: 1 }
 
 export const StateContext = createContext<StateContextType | undefined>(undefined);
 
@@ -71,10 +73,10 @@ const StateProvider = ({ children }: { children: any }) => {
   const [board, setBoard] = useState<{ color: string, text: string }[][]>(initialBoardState);
   const [attempt, setAttempt] = useState<string>(EMPTY_STRING);
   const [answer, setAnswer] = useState<string>(initialAnswer)
-  const [currentSpot, setCurrentSpot] = useState<{ id: number, index: number }>({ id: 1, index: 1 })
+  const [currentSpot, setCurrentSpot] = useState<{ id: number, index: number }>(initialCurrentSpot)
   
   const [keyboardKeys, setKeyboardKeys] = useState<{ color: string, text: string }[][]>(initialKeyboardKeys)
-  const [isGameOver, setIsGameOver] = useState<boolean>(true)
+  const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
   useEffect(() => {
     console.log(answer)
@@ -87,6 +89,16 @@ const StateProvider = ({ children }: { children: any }) => {
   const keyboardKeysState: KeyboardKeysType = [keyboardKeys, setKeyboardKeys]
   const isGameOverState: IsGameOverType = [isGameOver, setIsGameOver]
 
+  const startOver = () => {
+    setBoard(initialBoardState);
+    setAttempt(EMPTY_STRING);
+    setAnswer(initialAnswer);
+    setCurrentSpot(initialCurrentSpot)
+    setKeyboardKeys(initialKeyboardKeys)
+    setIsGameOver(false)
+    console.log("game over reset")
+  }
+
 
   const contextValue: StateContextType = {
     boardState,
@@ -94,7 +106,8 @@ const StateProvider = ({ children }: { children: any }) => {
     answerState,
     currentSpotState,
     keyboardKeysState,
-    isGameOverState
+    isGameOverState,
+    startOver
   };
 
   return (
