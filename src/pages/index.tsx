@@ -3,8 +3,9 @@ import WordleUI from "@/components/WordleUi";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import isValidWord from "@/utilities/words";
-import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY, ORANGE, isLetterInAlphabet } from "@/utilities/constants";
+import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY, ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet } from "@/utilities/constants";
 import styles from "src/styles/Board.module.scss"
+import getNewGuess from "@/utilities/guesses";
 
 const Index: React.FC = () => {
   
@@ -12,7 +13,7 @@ const Index: React.FC = () => {
   const [board, setBoard] = boardState
   const [currentSpot, setCurrentSpot] = currentSpotState
   const [attempt, setAttempt] = attemptState
-  const [answer] = answerState
+  const [answer, setAnswer] = answerState
   const [isAllowedToWrite, setIsAllowedToWrite] = useState<boolean>(true)
   const [keyboardKeys, setKeyboardKeys] = keyboardKeysState
   const [isWordValid, setIsWordValid] = useState<boolean>(false);
@@ -200,11 +201,30 @@ const Index: React.FC = () => {
     setIsWordValid(false)
   }, [handleBoardKeyColor, isWordValid])
 
-
+  const startOverOnEnter = useCallback(() => {
+    setBoard([
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+      [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
+    ]);
+    setAttempt(EMPTY_STRING);
+    setAnswer(getNewGuess());
+    setCurrentSpot(initialCurrentSpot)
+    setKeyboardKeys(initialKeyboardKeys)
+    setIsGameOver(false)
+  }, [setAnswer, setAttempt, setBoard, setCurrentSpot, setIsGameOver, setKeyboardKeys])
   useEffect(() => {
-    if (isGameOver === false) return
-    return window.removeEventListener("keyup", keyUp)
-  }, [isGameOver, keyUp])
+    if (isGameOver === false) {
+      setIsAllowedToWrite(true)
+    } else {
+      setIsAllowedToWrite(false)
+      window.addEventListener("keyup", startOverOnEnter)
+      return () => window.removeEventListener("keyup", startOverOnEnter)
+    }
+  }, [isGameOver, keyUp, startOverOnEnter])
 
   return <WordleUI />
 };
