@@ -78,10 +78,6 @@ const StateProvider = ({ children }: { children: any }) => {
   const [keyboardKeys, setKeyboardKeys] = useState<{ color: string, text: string }[][]>(initialKeyboardKeys)
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
-  useEffect(() => {
-    console.log(answer)
-  }, [answer])
-
   const boardState: BoardStateType = [board, setBoard]
   const attemptState: AttemptStateType = [attempt, setAttempt]
   const answerState: AnswerStateType = [answer, setAnswer]
@@ -103,7 +99,7 @@ const StateProvider = ({ children }: { children: any }) => {
     setCurrentSpot(initialCurrentSpot)
     setKeyboardKeys(initialKeyboardKeys)
     setIsGameOver(false)
-    console.log("game over reset")
+
   }
 
 

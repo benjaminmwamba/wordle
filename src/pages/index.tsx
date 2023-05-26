@@ -41,15 +41,15 @@ const Index: React.FC = () => {
   }, [board, currentSpot.id, currentSpot.index, handleAttempt, setBoard, handleCurrentSpotChange])
   const handleLetter = useCallback((letter: string): void => {
     if (currentSpot.id === LAST_SLOT && currentSpot.index === FIRST_INDEX) {
-      console.log("the board is full")
+
       return
     } else if (currentSpot.index === LAST_INDEX) return
     typeLetterOnBoard(letter)
   }, [currentSpot.id, currentSpot.index, typeLetterOnBoard]);
 
   const handleWordIsInvalid = useCallback(() => {
-    console.log("the word you entered is invalid")
-    console.log("try typing another word")
+
+
     const boardSlots = document.querySelectorAll(`[data-board_slot]`);
     const currentSlot = boardSlots[currentSpot.id - 1];
 
@@ -63,7 +63,7 @@ const Index: React.FC = () => {
   }, [currentSpot.id])
 
   const handleKeyboardKeyColor = useCallback(() => {
-    console.log(currentSpot.id)
+
     const deepCopyKeyboard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(keyboardKeys)); // Create a deep copy of the board
 
     deepCopyKeyboard.forEach((keys) => {
@@ -83,10 +83,10 @@ const Index: React.FC = () => {
       });
     });
     setKeyboardKeys(deepCopyKeyboard)
-    console.log(deepCopyKeyboard)
-  }, [answer, attempt, currentSpot.id, keyboardKeys, setKeyboardKeys])
+
+  }, [answer, attempt, keyboardKeys, setKeyboardKeys])
   const handleWordIsValid = useCallback(() => {
-    console.log("the word you entered is valid")
+
     setIsWordValid(true)
     handleKeyboardKeyColor()
   }, [handleKeyboardKeyColor])
@@ -96,7 +96,7 @@ const Index: React.FC = () => {
     if (currentSpot.index !== LAST_INDEX) return
 
     //setAttempt(lettersFromTheCurrentSlot)
-    console.log("attempt:", attempt)
+
     if (isValidWord(attempt) === true) {
       handleWordIsValid()
     } else {
