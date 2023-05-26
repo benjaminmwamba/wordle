@@ -1,3 +1,4 @@
+
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import { BRIGHT_GREY, EMPTY_STRING, REGULAR_BACKGROUND_COLOR } from "@/utilities/constants";
 import React, { useContext } from "react";

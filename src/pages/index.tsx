@@ -1,3 +1,4 @@
+
 import WordleUI from "@/components/WordleUi";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
@@ -6,6 +7,7 @@ import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER
 import styles from "src/styles/Board.module.scss"
 
 const Index: React.FC = () => {
+  
   const { boardState, currentSpotState, attemptState, answerState, keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
   const [board, setBoard] = boardState
   const [currentSpot, setCurrentSpot] = currentSpotState

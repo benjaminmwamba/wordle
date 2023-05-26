@@ -1,3 +1,4 @@
+
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import React, { useContext, useEffect } from "react";
 import styles from "src/styles/Modals.module.scss"
