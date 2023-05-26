@@ -22,8 +22,8 @@ const Index: React.FC = () => {
   const handleCurrentSpotChange = useCallback(() => {
     setCurrentSpot((previousSpot) => {
       const PREVIOUS_SLOT = previousSpot.id
-      const PREVIOUS_INDEX = previousSpot.index + 1
-      return { id: PREVIOUS_SLOT, index: PREVIOUS_INDEX }
+      const NEW_INDEX = previousSpot.index + 1
+      return { id: PREVIOUS_SLOT, index: NEW_INDEX }
     })
   }, [setCurrentSpot])
 
@@ -41,7 +41,7 @@ const Index: React.FC = () => {
   }, [board, currentSpot.id, currentSpot.index, handleAttempt, setBoard, handleCurrentSpotChange])
   const handleLetter = useCallback((letter: string): void => {
     if (currentSpot.id === LAST_SLOT && currentSpot.index === FIRST_INDEX) {
-
+      
       return
     } else if (currentSpot.index === LAST_INDEX) return
     typeLetterOnBoard(letter)
@@ -86,15 +86,14 @@ const Index: React.FC = () => {
 
   }, [answer, attempt, keyboardKeys, setKeyboardKeys])
   const handleWordIsValid = useCallback(() => {
-
     setIsWordValid(true)
+
     handleKeyboardKeyColor()
   }, [handleKeyboardKeyColor])
 
 
   const handleEnter = useCallback(() => {
     if (currentSpot.index !== LAST_INDEX) return
-
     //setAttempt(lettersFromTheCurrentSlot)
 
     if (isValidWord(attempt) === true) {
@@ -197,9 +196,12 @@ const Index: React.FC = () => {
     if (isWordValid === false) return
 
     handleBoardKeyColor()
-
     setIsWordValid(false)
-  }, [handleBoardKeyColor, isWordValid])
+  }, [currentSpot.id, handleBoardKeyColor, isAttemptEqualToAnswer, isWordValid, setIsGameOver])
+
+  useEffect(() => {
+    if (currentSpot.id === 7) setIsGameOver(true)
+  }, [currentSpot.id, setIsGameOver])
 
   const startOverOnEnter = useCallback(() => {
     setBoard([

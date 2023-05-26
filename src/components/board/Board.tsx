@@ -21,7 +21,7 @@ const BoardUI = () => {
 	return (
 		<div className={styles.board_container}>
 			{isGameOver === true ?
-				<Gameover header="start over" /> :
+				<Gameover/> :
 				null
 			}
 			<div className={styles.board_slots_container}>
