@@ -3,7 +3,7 @@ import styles from "../styles/WordleUI.module.scss"
 import Keyboard from "@/components/keyboard/Keyboard";
 import Board from "@/components/board/Board";
 
-const WordleUI = () => {
+const WordleUI: React.FC = () => {
 	return (
 		<div className={styles.app_container}>
 			<nav className={styles.navbar}>
