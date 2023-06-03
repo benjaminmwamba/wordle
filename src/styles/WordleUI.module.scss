@@ -1,10 +1,12 @@
 @use "variables";
+body {
+	height: 100%;
+}
 
 .app_container {
 	background-color: variables.$regular_background_color;
 	width: 100vw;
-	height: 100vh;
-	height: 100dvh;
+	height: 100%;
 	//min-height: -webkit-fill-available;
 	//max-height: -webkit-fill-available;
 }
