@@ -4,7 +4,10 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
-      <body>
+      <body style={{
+        height: "100dlv",
+        minHeight: "100dlv"
+      }}>
         <Main />
         <NextScript />
       </body>
