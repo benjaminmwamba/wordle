@@ -1,5 +1,5 @@
 
-import WordleUI from "@/components/WordleUI";
+import WordleUI from "@/components/WordleUi";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import isValidWord from "@/utilities/words";
