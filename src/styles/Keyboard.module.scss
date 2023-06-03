@@ -38,6 +38,8 @@ $key_gap: 6px;
 }
 
 .touchpad_key {
+	border: none;
+	
 	background-color: variables.$brigh_grey_color;
 	color: white;
 	width: 100%;

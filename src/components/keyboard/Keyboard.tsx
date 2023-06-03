@@ -31,7 +31,7 @@ const KeyboardUI = () => {
 											}
 										}
 										return (
-											<div style={{
+											<button style={{
 												backgroundColor: getBackgroundColor()
 											}} data-keyboard_key={text} key={(text + index)} className={styles.touchpad_key}>
 												{
@@ -40,7 +40,7 @@ const KeyboardUI = () => {
 														fill: "white"
 													}} src={deleteIcon} alt="delete icon" /> : text
 												}
-											</div>
+											</button>
 										)
 									})
 								}

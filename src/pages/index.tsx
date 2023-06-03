@@ -8,7 +8,7 @@ import styles from "src/styles/Board.module.scss"
 import getNewGuess from "@/utilities/guesses";
 
 const Index: React.FC = () => {
-  
+
   const { boardState, currentSpotState, attemptState, answerState, keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
   const [board, setBoard] = boardState
   const [currentSpot, setCurrentSpot] = currentSpotState
@@ -41,7 +41,7 @@ const Index: React.FC = () => {
   }, [board, currentSpot.id, currentSpot.index, handleAttempt, setBoard, handleCurrentSpotChange])
   const handleLetter = useCallback((letter: string): void => {
     if (currentSpot.id === LAST_SLOT && currentSpot.index === FIRST_INDEX) {
-      
+
       return
     } else if (currentSpot.index === LAST_INDEX) return
     typeLetterOnBoard(letter)
@@ -127,9 +127,10 @@ const Index: React.FC = () => {
     })
   }, [board, currentSpot.id, currentSpot.index, setAttempt, setBoard, setCurrentSpot])
 
-  const keyUp = useCallback((event: KeyboardEvent) => {
+
+
+  const handleKeyPress = useCallback((key: string) => {
     if (isAllowedToWrite === false) return
-    const key = event.key
     if (isLetterInAlphabet(key)) {
       handleLetter(key)
     } else if (key === ENTER_KEY_WORD) {
@@ -141,9 +142,14 @@ const Index: React.FC = () => {
 
 
   useEffect(() => {
-    window.addEventListener("keyup", keyUp)
-    return () => window.removeEventListener("keyup", keyUp)
-  }, [keyUp])
+
+    const callaableFunction = (event: KeyboardEvent) => {
+      handleKeyPress(event.key)
+    }
+
+    window.addEventListener("keyup", callaableFunction)
+    return () => window.removeEventListener("keyup", callaableFunction)
+  }, [handleKeyPress])
 
   const getEveryLetterThatMatchesAttemptAndAnswer = useCallback((): string => {
     const deepCopyBoard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(board)); // Create a deep copy of the board
@@ -226,7 +232,40 @@ const Index: React.FC = () => {
       window.addEventListener("keyup", startOverOnEnter)
       return () => window.removeEventListener("keyup", startOverOnEnter)
     }
-  }, [isGameOver, keyUp, startOverOnEnter])
+  }, [isGameOver, startOverOnEnter])
+
+
+
+  useEffect(() => {
+    const theFunction = (event: any) => {
+      const KEY_ATTRIBUTE = "data-keyboard_key"
+      const BUTTON_TAG_NAME = "BUTTON";
+      const IMAGE_TAG_NAME = "IMG"
+      const ENTER = "enter"
+      const DELETE_PLACEHOLDER_TEXT = "fd"
+      if (!event.target) return;
+
+      const { target } = event;
+      const tagName = target.tagName;
+
+      if ((tagName !== BUTTON_TAG_NAME) && (tagName !== IMAGE_TAG_NAME)) return;
+
+      let letter = target.getAttribute(KEY_ATTRIBUTE);
+      if (tagName === IMAGE_TAG_NAME) {
+        letter = target.parentNode?.getAttribute(KEY_ATTRIBUTE);
+      }
+
+      if (letter === ENTER) {
+        letter = ENTER_KEY_WORD;
+      } else if (letter === DELETE_PLACEHOLDER_TEXT) {
+        letter = BACKSPACE_KEY_WORD;
+      }
+
+      handleKeyPress(letter);
+    }
+    document.addEventListener("click", theFunction)
+    return () => document.removeEventListener("click", theFunction)
+  }, [handleKeyPress])
 
   return <WordleUI />
 };

@@ -16,12 +16,12 @@ const BoardUI = () => {
 	const { boardState, isGameOverState } = useContext(StateContext) as StateContextType;
 	const [board] = boardState
 	const [isGameOver] = isGameOverState
-	
+
 
 	return (
 		<div className={styles.board_container}>
 			{isGameOver === true ?
-				<Gameover/> :
+				<Gameover /> :
 				null
 			}
 			<div className={styles.board_slots_container}>
