@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import isValidWord from "@/utilities/words";
 import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY, ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet } from "@/utilities/constants";
-import styles from "src/styles/Board.module.scss"
+import styles from "@/styles/Board.module.scss"
 import getNewGuess from "@/utilities/guesses";
 import WordleUI from "@/components/WordleUI";
 
