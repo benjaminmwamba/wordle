@@ -33,7 +33,8 @@ const KeyboardUI = () => {
 										return (
 											<button style={{
 												backgroundColor: getBackgroundColor()
-											}} data-keyboard_key={text} key={(text + index)} className={styles.touchpad_key}>
+											}}
+												data-keyboard_key={text} key={(text + index)} className={styles.touchpad_key}>
 												{
 													text === "fd" ? <Image style={{
 														color: "white",
