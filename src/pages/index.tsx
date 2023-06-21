@@ -6,7 +6,9 @@ import isValidWord from "@/utilities/words";
 import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY, ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet } from "@/utilities/constants";
 import styles from "@/styles/Board.module.scss"
 import getNewGuess from "@/utilities/guesses";
-import WordleUI from "@/components/WordleUI";
+import Board from "@/components/board/Board";
+import Keyboard from "@/components/keyboard/Keyboard";
+
 
 const Index: React.FC = () => {
 
@@ -268,7 +270,17 @@ const Index: React.FC = () => {
     return () => document.removeEventListener("click", theFunction)
   }, [handleKeyPress])
 
-  return <WordleUI />
+  return (
+    <div className={styles.app_container}>
+      <nav className={styles.navbar}>
+        <h2 className={styles.wordle_title}>wordle</h2>
+      </nav>
+      <section className={styles.lower_part}>
+        <Board />
+        <Keyboard />
+      </section>
+    </div>
+  )
 };
 
 export default Index;
