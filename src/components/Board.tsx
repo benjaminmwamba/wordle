@@ -3,7 +3,7 @@ import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import { EMPTY_STRING, REGULAR_BACKGROUND_COLOR } from "@/utilities/constants";
 import React, { useContext } from "react";
 import styles from "src/styles/Board.module.scss";
-import Gameover from "../Modals/Gameover";
+import Gameover from "./Modals/Gameover";
 
 
 

@@ -16,6 +16,7 @@ export const BRIGHT_GREY = "#818384"
 export const LIGHTER_GREY = "#3a3a3c"
 export const REGULAR_BACKGROUND_COLOR = "#121213";
 
+
 export const initialBoardState: { color: string, text: string }[][] = [
 	[{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
 	[{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],

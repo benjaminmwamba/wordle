@@ -13,10 +13,10 @@
 	height: 7%;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	border-bottom: variables.$ligher-grey_color solid thin;
 
 	.wordle_title {
+		width: 93%;
 		padding: 4px;
 		display: flex;
 		align-items: center;
@@ -24,6 +24,31 @@
 		color: white;
 		font-size: 24px;
 		text-transform: uppercase;
+	}
+
+	.parameter {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 40px;
+		height: 40px;
+		aspect-ratio: 1 / 1;
+		.parameter_gear_container {
+			background-color: transparent;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-around;
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-radius: none;
+			.bar {
+				background-color: white;
+				width: 100%;
+				height: 5px;
+			}
+		}
 	}
 }
 
