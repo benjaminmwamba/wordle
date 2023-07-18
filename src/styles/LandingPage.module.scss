@@ -1,0 +1,82 @@
+@use "variables";
+
+$grey_background: #e3e3e1;
+
+.wrapper {
+
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.container {
+	background-color: $grey_background;
+	border: black solid thin;
+	height: 50%;
+	width: 90%;
+}
+
+.option_btn {
+	background-color: transparent;
+	border: none;
+}
+
+.logo {
+	width: 100%;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	.wordle_logo {
+		width: 70px;
+		height: 70px;
+		aspect-ratio: 1/1;
+	}
+
+	h2 {
+		font-size: 3rem;
+		font-family: 'Times New Roman', Times, serif
+	}
+}
+
+.banner {
+	width: 100%;
+	height: auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-bottom: 2rem;
+
+	p {
+		color: black;
+		font-size: 1.6rem;
+		font-weight: 100;
+	}
+}
+
+.option_btns {
+	--option_btn_width: 2rem
+	background-color: blue;
+	width: 100%;
+	height: auto;
+	display: grid;
+	grid-template-columns: repeat(3, --option_btn_width);
+	grid-gap: 20px;
+
+	.option_btn {
+		width: 2rem;
+		background-color: yellow;
+		padding: 2rem 2rem;
+		font-size: 1rem;
+		border: black solid thin;
+		border-radius: 1vw;
+		font-family: "Clear Sans",
+			"Helvetica Neue",
+			Arial,
+			sans-serif;
+	}
+}
