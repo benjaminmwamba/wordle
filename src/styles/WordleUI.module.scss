@@ -16,7 +16,7 @@
 	border-bottom: variables.$ligher-grey_color solid thin;
 
 	.wordle_title {
-		width: 93%;
+		width: 100%;
 		padding: 4px;
 		display: flex;
 		align-items: center;
@@ -27,6 +27,9 @@
 	}
 
 	.parameter {
+		position: absolute;
+		right: 0;
+		margin-right: 1rem;
 		display: flex;
 		justify-content: center;
 		align-items: center;

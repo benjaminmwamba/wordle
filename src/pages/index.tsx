@@ -3,7 +3,7 @@ import Landing from "./Landing";
 import Wordle from "./Wordle";
 
 const index = () => {
-  return <Wordle/>
+  return <Landing/>
 };
 
 export default index;
