@@ -4,6 +4,7 @@ import Image from "next/image";
 import WordleLogo from "public/wordle-icon.svg"
 import { useRouter } from "next/router";
 import Link from "next/link";
+import useScreenSize from "@/hooks/useScreenSize";
 
 const WORDLE_LOGO_ALT = "Wordle Logo"
 
@@ -19,6 +20,10 @@ const getCurrentFormattedDate = () => {
 
 const Landing = () => {
 	const formattedDate = getCurrentFormattedDate()
+	const {
+		screenWidth,
+		screenHeight
+	} = useScreenSize()
 
 	return (
 		<section className={styles.wrapper}>

@@ -8,6 +8,7 @@ import getNewGuess from "@/utilities/guesses";
 import Board from "@/components/Board";
 import Keyboard from "@/components/Keyboard";
 import styles from "@/styles/WordleUI.module.scss"
+import useScreenSize from "@/hooks/useScreenSize";
 
 
 
@@ -22,6 +23,11 @@ const Index: React.FC = () => {
 	const [keyboardKeys, setKeyboardKeys] = keyboardKeysState
 	const [isWordValid, setIsWordValid] = useState<boolean>(false);
 	const [isGameOver, setIsGameOver] = isGameOverState
+
+	const {
+		screenWidth,
+		screenHeight
+	} = useScreenSize()
 
 	const handleCurrentSpotChange = useCallback(() => {
 		setCurrentSpot((previousSpot) => {

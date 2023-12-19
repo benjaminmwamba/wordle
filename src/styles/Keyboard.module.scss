@@ -3,29 +3,10 @@
 $key_gap: 6px;
 
 .keyboard_container {
+	height: 100%;
+	max-width: 27rem;
+	min-width: 21rem;
 	width: 100%;
-	height: 50%;
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	padding-bottom: 10px;
-}
-
-.touchpad_container {
-	//width: 510px;
-	min-width: 27.5rem;
-	width: 40vw;
-	//max-width: 37.8rem;
-	height: 50%;
-	display: grid;
-	gap: $key_gap;
-
-}
-
-@media only screen and (max-width: 500px) {
-	.touchpad_container {
-		margin-bottom: 5rem;
-	}
 }
 
 .touchpad_keyslot {
@@ -48,7 +29,6 @@ $key_gap: 6px;
 
 .touchpad_key {
 	border: none;
-
 	background-color: variables.$brigh_grey_color;
 	color: white;
 	width: 100%;
@@ -70,8 +50,25 @@ $key_gap: 6px;
 		background-color: variables.$regular_background_color;
 	}
 
-	&:hover, &:active {
+	&:hover,
+	&:active {
 		filter: brightness(150%);
-		color:  black;
+		color: black;
 	}
+}
+
+.touchpad_container {
+	//margin-bottom: 5rem;
+	width: 100%;
+	padding: 0.6rem 0.6rem;
+	height: 100%;
+	display: grid;
+	gap: $key_gap;
+}
+
+.keyboard_side_limiter {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
