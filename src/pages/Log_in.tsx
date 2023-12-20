@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/Log_in.module.scss';
 
 interface LoginFormValues {
@@ -28,6 +28,23 @@ const Login: React.FC = () => {
 		console.log(formData);
 	};
 
+	const [data, setData] = useState<any>(null)
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch('/api/hello');
+				const result = await response.json();
+				setData(result);
+				console.log(result)
+			} catch (error) {
+				console.error('Error fetching data:', error);
+			}
+		};
+
+		fetchData();
+	}, []);
+
 	return (
 		<section className={styles.login_wrapper}>
 			<div className={styles.login_container}>
@@ -46,8 +63,8 @@ const Login: React.FC = () => {
 					<label htmlFor="email">Email Address:</label>
 					<input
 						type="text"
-						id="username"
-						name="username"
+						id="email address"
+						name="email address"
 						value={formData.username}
 						onChange={handleInputChange}
 						required
