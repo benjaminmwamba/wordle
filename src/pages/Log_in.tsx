@@ -3,15 +3,15 @@ import styles from '@/styles/Log_in.module.scss';
 
 interface LoginFormValues {
 	username: string;
+	emailAddress: string;
 	password: string;
-	accountType: string;
 }
 
 const Login: React.FC = () => {
 	const [formData, setFormData] = useState<LoginFormValues>({
 		username: '',
+		emailAddress: "",
 		password: '',
-		accountType: 'apple',
 	});
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,6 +43,16 @@ const Login: React.FC = () => {
 						required
 					/>
 
+					<label htmlFor="email">Email Address:</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						value={formData.username}
+						onChange={handleInputChange}
+						required
+					/>
+
 					<label htmlFor="password">Password:</label>
 					<input
 						type="password"
@@ -52,19 +62,6 @@ const Login: React.FC = () => {
 						onChange={handleInputChange}
 						required
 					/><br /><br />
-
-					<label htmlFor="accountType">Account Type:</label>
-					<select
-						id="accountType"
-						name="accountType"
-						value={formData.accountType}
-						onChange={handleInputChange}
-						required
-					>
-						<option value="apple">Apple</option>
-						<option value="google">Google</option>
-						<option value="unique">Unique Account</option>
-					</select><br /><br />
 
 					<input type="submit" value="Login" />
 				</form>
