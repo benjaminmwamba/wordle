@@ -115,6 +115,10 @@ const StateProvider = ({ children }: { children: any }) => {
     startOver
   };
 
+  useEffect(() => {
+    console.log(answer)
+  }, [answer])
+
   return (
     <StateContext.Provider value={contextValue}>
       {children}

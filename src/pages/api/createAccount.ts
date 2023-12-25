@@ -12,7 +12,7 @@ export interface UserWithId extends User {
 	id: string
 }
 
-const USERS_JSON_FILE_PATH = 'src/pages/api/users.json';
+export const USERS_JSON_FILE_PATH = 'src/pages/api/users.json';
 const getUsers = async (): Promise<UserWithId[]> => {
 	try {
 		// Read the JSON file asynchronously
@@ -50,7 +50,7 @@ const addUserToUsersList = async (newUser: User): Promise<boolean> => {
 
 		const newUserWithId = {
 			...newUser,
-			id: newUser.username + newUser.password,
+			id: (newUser.username + newUser.password).trim(),
 		}
 		// Add the new user to the array
 		users.push(newUserWithId);

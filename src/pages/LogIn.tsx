@@ -1,13 +1,45 @@
 import React, { useEffect, useState } from 'react';
-import styles from '@/styles/Log_in.module.scss';
+import styles from '@/styles/LogIn.module.scss';
+import { useRouter } from 'next/router';
+import { UserWithId } from './api/createAccount';
 
-interface LoginFormValues {
+
+export interface LoginFormValues {
 	username: string;
 	emailAddress: string;
 	password: string;
 }
 
+const LOGIN_ROUTE = '/api/logIn';
+
+const lowerCaseUserData: LoginFormValues = {
+	username: "benjamin mwamba",
+	emailAddress: "benjaminmwamba75@gmail.com",
+	password: "benjamin2004",
+}
+
+const fetchData = async (): Promise<any> => {
+	try {
+		const response = await fetch(LOGIN_ROUTE, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				// You may need to include additional headers (e.g., authentication headers) here
+			},
+			body: JSON.stringify(lowerCaseUserData),
+		});
+		const result: UserWithId = await response.json();
+		return result;
+	} catch (error) {
+		console.error('Error fetching data:', error);
+	}
+};
+
 const Login: React.FC = () => {
+
+	const router = useRouter();
+
+
 	const [formData, setFormData] = useState<LoginFormValues>({
 		username: '',
 		emailAddress: "",
@@ -23,52 +55,12 @@ const Login: React.FC = () => {
 		}));
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		// Perform login logic here using the form data
-		console.log(formData);
+		const loginInformation: UserWithId = await fetchData()
+		router.push(`/${loginInformation.id}/Wordle`)
 	};
 
-	const [data, setData] = useState<any>(null)
-
-	const CREATE_ACCOUNT_ROUTE = '/api/createAccount';
-
-	
-
-	useEffect(() => {
-		const BENJAMIN_DUMMY_FORM_DATA = {
-			username: 'Benjamin Mwamba',
-			emailAddress: "benjaminmwamba75@gmail.com",
-			password: 'Benjamin2004',
-		}
-		const fetchData = async () => {
-			try {
-				const lowerCaseUserData = {
-					username: BENJAMIN_DUMMY_FORM_DATA.username.toLowerCase(),
-					emailAddress: BENJAMIN_DUMMY_FORM_DATA.emailAddress.toLowerCase(),
-					password: BENJAMIN_DUMMY_FORM_DATA.password.toLowerCase(),
-				}
-				const response = await fetch(CREATE_ACCOUNT_ROUTE, {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						// You may need to include additional headers (e.g., authentication headers) here
-					},
-					body: JSON.stringify(lowerCaseUserData),
-				});
-				const result = await response.json();
-				setData(result);
-				console.log(result.text)
-				console.table(result.users)
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-
-			
-		};
-		//if ((formData.username !== "") && (formData.emailAddress !== "") && (formData.password.length > 7))
-		fetchData();
-	}, []);
 
 	return (
 		<section className={styles.login_wrapper}>

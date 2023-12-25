@@ -44,7 +44,7 @@ const Landing = () => {
 				</div>
 				<div className={styles.option_btns}>
 					<Link href="/Instructions" className={styles.option_btn}>How to play</Link>
-					<Link href="/Log_in" className={styles.option_btn}>Log in</Link>
+					<Link href="/LogIn" className={styles.option_btn}>Log in</Link>
 					<Link href="/Wordle" className={styles.option_btn} data-play_btn>Play</Link>
 				</div>
 				<div className={styles.info_banner}>
