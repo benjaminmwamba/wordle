@@ -1,3 +1,4 @@
+import { UserWithId } from "@/pages/api/createAccount";
 import { EMPTY_STRING } from "@/utilities/constants";
 import getNewGuess from "@/utilities/guesses";
 import React, { useState, createContext, Dispatch, SetStateAction, useEffect } from "react";
@@ -8,8 +9,11 @@ type AnswerStateType = [string, Dispatch<SetStateAction<string>>]
 type CurrentSpotType = [{ id: number, index: number }, Dispatch<SetStateAction<{ id: number, index: number }>>]
 type KeyboardKeysType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
 type IsGameOverType = [boolean, Dispatch<SetStateAction<boolean>>]
+type UserStateType = [UserWithId | undefined, (newUserData: UserWithId) => void];
+
 
 export interface StateContextType {
+  userState: UserStateType,
   boardState: BoardStateType;
   attemptState: AttemptStateType;
   answerState: AnswerStateType,
@@ -65,11 +69,25 @@ const initialKeyboardKeys: { color: string, text: string }[][] = [
     { color: EMPTY_STRING, text: "fd" }
   ]
 ];
+
 const initialCurrentSpot = { id: 1, index: 1 }
 
 export const StateContext = createContext<StateContextType | undefined>(undefined);
 
 const StateProvider = ({ children }: { children: any }) => {
+
+  //IMPORTANT
+  const [userPrimaryLoginData, setUserPrimaryLoginData] = useState<UserWithId>()
+
+  const changePrimaryUserLoginData = (newUserData: UserWithId): void => {
+    if ((userPrimaryLoginData === null) || (userPrimaryLoginData === undefined)) {
+      console.log("MESSAGE FROM PROVIDER: the userData is either null or undefined")
+      return
+    }
+    setUserPrimaryLoginData(newUserData)
+  }
+  //IMPORTANT
+
   const [board, setBoard] = useState<{ color: string, text: string }[][]>(initialBoardState);
   const [attempt, setAttempt] = useState<string>(EMPTY_STRING);
   const [answer, setAnswer] = useState<string>(initialAnswer)
@@ -78,6 +96,7 @@ const StateProvider = ({ children }: { children: any }) => {
   const [keyboardKeys, setKeyboardKeys] = useState<{ color: string, text: string }[][]>(initialKeyboardKeys)
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
 
+  const userState: UserStateType = [userPrimaryLoginData, changePrimaryUserLoginData];
   const boardState: BoardStateType = [board, setBoard]
   const attemptState: AttemptStateType = [attempt, setAttempt]
   const answerState: AnswerStateType = [answer, setAnswer]
@@ -106,6 +125,7 @@ const StateProvider = ({ children }: { children: any }) => {
 
 
   const contextValue: StateContextType = {
+    userState,
     boardState,
     attemptState,
     answerState,

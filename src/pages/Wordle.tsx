@@ -20,7 +20,7 @@ import { UserWithId } from "./api/createAccount";
 
 const Index: React.FC = () => {
 
-	const { boardState, currentSpotState, attemptState, answerState,
+	const { userState, boardState, currentSpotState, attemptState, answerState,
 		keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
@@ -30,11 +30,22 @@ const Index: React.FC = () => {
 	const [keyboardKeys, setKeyboardKeys] = keyboardKeysState
 	const [isWordValid, setIsWordValid] = useState<boolean>(false);
 	const [isGameOver, setIsGameOver] = isGameOverState
+	const [userPrimaryLoginData, changePrimaryUserLoginData] = userState
 
 	const {
 		screenWidth,
 		screenHeight
 	} = useScreenSize()
+
+	const router = useRouter()
+
+	useEffect(() => {
+		// Extract user data from the router query parameters
+		const userDataString = router.query.userData as string;
+		const routedUserData = userDataString ? JSON.parse(userDataString) : null;
+		//console.log(routedUserData)
+		changePrimaryUserLoginData(routedUserData)
+	}, [router.query.userData, changePrimaryUserLoginData]);
 
 	const handleCurrentSpotChange = useCallback(() => {
 		setCurrentSpot((previousSpot) => {
@@ -290,18 +301,6 @@ const Index: React.FC = () => {
 	const handleMenu = () => {
 		setIsParameterOpen(previousIsParametersOpen => !previousIsParametersOpen)
 	}
-
-	const router = useRouter()
-
-	const [userData, setUserData] = useState<UserWithId>()
-	
-	useEffect(() => {
-		// Extract user data from the router query parameters
-		const userDataString = router.query.userData as string;
-		const routedUserData = JSON.parse(userDataString);
-		console.log(routedUserData)
-		setUserData(routedUserData)
-	}, [router.query.userData]);
 
 	return (
 		<div className={styles.app_container}>

@@ -12,42 +12,41 @@ export interface LoginFormValues {
 
 const LOGIN_ROUTE = '/api/logIn';
 
+// ... (imports remain the same)
+
 const lowerCaseUserData: LoginFormValues = {
 	username: "benjamin mwamba",
 	emailAddress: "benjaminmwamba75@gmail.com",
 	password: "benjamin2004",
-}
+};
 
-const fetchData = async (): Promise<any> => {
+const fetchData = async (formData: LoginFormValues): Promise<any> => {
 	try {
 		const response = await fetch(LOGIN_ROUTE, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				// You may need to include additional headers (e.g., authentication headers) here
 			},
-			body: JSON.stringify(lowerCaseUserData),
+			body: JSON.stringify(formData),
 		});
 		const result: UserWithId = await response.json();
 		return result;
 	} catch (error) {
 		console.error('Error fetching data:', error);
+		throw error;
 	}
 };
 
 const Login: React.FC = () => {
-
 	const router = useRouter();
-
 
 	const [formData, setFormData] = useState<LoginFormValues>({
 		username: '',
-		emailAddress: "",
+		emailAddress: '',
 		password: '',
 	});
-	
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 		setFormData((prevState) => ({
 			...prevState,
@@ -57,14 +56,19 @@ const Login: React.FC = () => {
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		const loginInformation: UserWithId = await fetchData()
+		try {
+			// Pass the dummy login information for now
+			const userLoginInformation: UserWithId = await fetchData(lowerCaseUserData);
 
-		router.push({
-			pathname: '/Wordle',
-			query: JSON.stringify(loginInformation),
-		});
+			// Redirect to Wordle page with login information
+			router.push({
+				pathname: '/Wordle',
+				query: { userData: JSON.stringify(userLoginInformation) },
+			});
+		} catch (error) {
+			console.log(error)
+1		}
 	};
-
 
 	return (
 		<section className={styles.login_wrapper}>
@@ -84,7 +88,7 @@ const Login: React.FC = () => {
 					<label htmlFor="email">Email Address:</label>
 					<input
 						type="text"
-						id="email address"
+						id="emailAddress"
 						name="emailAddress"
 						value={formData.emailAddress}
 						onChange={handleInputChange}
