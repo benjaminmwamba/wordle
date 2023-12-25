@@ -3,18 +3,25 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { StateContext, StateContextType } from "@/helpers/StateProvider";
 import isValidWord from "@/utilities/words";
-import { BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING, ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY, ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet } from "@/utilities/constants";
+import {
+	BACKSPACE_KEY_WORD, DELAY_FOR_RESETTING_CASE_COLOR, EMPTY_STRING,
+	ENTER_KEY_WORD, FIRST_INDEX, GREEN, LAST_INDEX, LAST_SLOT, LIGHTER_GREY,
+	ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet
+} from "@/utilities/constants";
 import getNewGuess from "@/utilities/guesses";
 import Board from "@/components/Board";
 import Keyboard from "@/components/Keyboard";
 import styles from "@/styles/WordleUI.module.scss"
 import useScreenSize from "@/hooks/useScreenSize";
+import { useRouter } from "next/router";
+import { UserWithId } from "./api/createAccount";
 
 
 
 const Index: React.FC = () => {
 
-	const { boardState, currentSpotState, attemptState, answerState, keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
+	const { boardState, currentSpotState, attemptState, answerState,
+		keyboardKeysState, isGameOverState } = useContext(StateContext) as StateContextType;
 	const [board, setBoard] = boardState
 	const [currentSpot, setCurrentSpot] = currentSpotState
 	const [attempt, setAttempt] = attemptState
@@ -74,7 +81,8 @@ const Index: React.FC = () => {
 
 	const handleKeyboardKeyColor = useCallback(() => {
 
-		const deepCopyKeyboard: { color: string, text: string }[][] = JSON.parse(JSON.stringify(keyboardKeys)); // Create a deep copy of the board
+		const deepCopyKeyboard: { color: string, text: string }[][] =
+			JSON.parse(JSON.stringify(keyboardKeys)); // Create a deep copy of the board
 
 		deepCopyKeyboard.forEach((keys) => {
 			keys.forEach((key, slotIndex) => {
@@ -282,6 +290,18 @@ const Index: React.FC = () => {
 	const handleMenu = () => {
 		setIsParameterOpen(previousIsParametersOpen => !previousIsParametersOpen)
 	}
+
+	const router = useRouter()
+
+	const [userData, setUserData] = useState<UserWithId>()
+	
+	useEffect(() => {
+		// Extract user data from the router query parameters
+		const userDataString = router.query.userData as string;
+		const routedUserData = JSON.parse(userDataString);
+		console.log(routedUserData)
+		setUserData(routedUserData)
+	}, [router.query.userData]);
 
 	return (
 		<div className={styles.app_container}>

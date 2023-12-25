@@ -58,7 +58,11 @@ const Login: React.FC = () => {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const loginInformation: UserWithId = await fetchData()
-		router.push(`/${loginInformation.id}/Wordle`)
+
+		router.push({
+			pathname: '/Wordle',
+			query: JSON.stringify(loginInformation),
+		});
 	};
 
 
