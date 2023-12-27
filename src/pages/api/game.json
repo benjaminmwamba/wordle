@@ -1,3 +1,12 @@
 [
-	
+	{
+		"username": "benjamin mwamba",
+    	"emailAddress": "benjaminmwamba75@gmail.com",
+    	"password": "benjamin2004",
+    	"id": "benjaminmwambabenjamin2004",
+		"isLoggedIn": true,
+		"board": [],
+		"attempt": "",
+		"answer": ""
+	}
 ]

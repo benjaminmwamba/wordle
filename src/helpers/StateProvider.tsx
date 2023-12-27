@@ -81,10 +81,16 @@ const StateProvider = ({ children }: { children: any }) => {
 
   const changePrimaryUserLoginData = (newUserData: UserWithId): void => {
     if ((userPrimaryLoginData === null) || (userPrimaryLoginData === undefined)) {
-      console.log("MESSAGE FROM PROVIDER: the userData is either null or undefined")
+
+      if ((newUserData === null) || (newUserData === undefined)) {
+        console.log("MESSAGE FROM PROVIDER: the NEW_USER_DATA is either null or undefined")
+        return
+      }
+      setUserPrimaryLoginData(newUserData)
+      console.log("FROM PROVIDER", newUserData)
       return
     }
-    setUserPrimaryLoginData(newUserData)
+    console.log("MESSAGE FROM PROVIDER: the USER_DATA is either null or undefined")
   }
   //IMPORTANT
 
