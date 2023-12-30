@@ -9,8 +9,12 @@ import {
 	ORANGE, initialCurrentSpot, initialKeyboardKeys, isLetterInAlphabet
 } from "@/utilities/constants";
 import getNewGuess from "@/utilities/guesses";
-import Board from "@/components/Board";
-import Keyboard from "@/components/Keyboard";
+import dynamic from 'next/dynamic'
+
+//import Board from "@/components/Board";
+const Board = dynamic(() => import("@/components/Board"), { ssr: false })
+//import Keyboard from "@/components/Keyboard";
+const Keyboard = dynamic(() => import("@/components/Keyboard"), { ssr: false });
 import styles from "@/styles/WordleUI.module.scss"
 import useScreenSize from "@/hooks/useScreenSize";
 import { useRouter } from "next/router";

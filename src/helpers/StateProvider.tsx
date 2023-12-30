@@ -1,24 +1,28 @@
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { UserWithId } from "@/pages/api/createAccount";
 import { EMPTY_STRING } from "@/utilities/constants";
 import getNewGuess from "@/utilities/guesses";
 import React, { useState, createContext, Dispatch, SetStateAction, useEffect } from "react";
 
-type BoardStateType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
+type BoardStateType = [BoardType, Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
 type AttemptStateType = [string, Dispatch<SetStateAction<string>>]
 type AnswerStateType = [string, Dispatch<SetStateAction<string>>]
-type CurrentSpotType = [{ id: number, index: number }, Dispatch<SetStateAction<{ id: number, index: number }>>]
-type KeyboardKeysType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
+type CurrentSpotStateType = [{ id: number, index: number }, Dispatch<SetStateAction<{ id: number, index: number }>>]
+type KeyboardKeysStateType = [{ color: string, text: string }[][], Dispatch<SetStateAction<{ color: string, text: string }[][]>>]
 type IsGameOverType = [boolean, Dispatch<SetStateAction<boolean>>]
 type UserStateType = [UserWithId | undefined, (newUserData: UserWithId) => void];
 
+type BoardType = { color: string, text: string }[][];
+type CurrentSpotType = { id: number, index: number };
+type KeyboardKeysType = { color: string, text: string }[][];
 
 export interface StateContextType {
   userState: UserStateType,
   boardState: BoardStateType;
   attemptState: AttemptStateType;
   answerState: AnswerStateType,
-  currentSpotState: CurrentSpotType,
-  keyboardKeysState: KeyboardKeysType,
+  currentSpotState: CurrentSpotStateType,
+  keyboardKeysState: KeyboardKeysStateType,
   isGameOverState: IsGameOverType,
   startOver: () => void
 }
@@ -94,6 +98,7 @@ const StateProvider = ({ children }: { children: any }) => {
   }
   //IMPORTANT
 
+  /*
   const [board, setBoard] = useState<{ color: string, text: string }[][]>(initialBoardState);
   const [attempt, setAttempt] = useState<string>(EMPTY_STRING);
   const [answer, setAnswer] = useState<string>(initialAnswer)
@@ -101,13 +106,23 @@ const StateProvider = ({ children }: { children: any }) => {
   
   const [keyboardKeys, setKeyboardKeys] = useState<{ color: string, text: string }[][]>(initialKeyboardKeys)
   const [isGameOver, setIsGameOver] = useState<boolean>(false)
+  */
+
+  //const [board, setBoard] = useLocalStorage<{ color: string, text: string }[][]>(initialBoardState);
+  const [board, setBoard] = useLocalStorage<BoardType>({key: "board", initialValue: initialBoardState});
+  const [attempt, setAttempt] = useLocalStorage<string>({ key: "attempt", initialValue: EMPTY_STRING});
+  const [answer, setAnswer] = useLocalStorage<string>({key: "answer", initialValue: initialAnswer})
+  const [currentSpot, setCurrentSpot] = useLocalStorage<CurrentSpotType>({key: "currentSpot", initialValue: initialCurrentSpot})
+
+  const [keyboardKeys, setKeyboardKeys] = useLocalStorage<KeyboardKeysType>({ key: "keyboardKeys", initialValue: initialKeyboardKeys })
+  const [isGameOver, setIsGameOver] = useLocalStorage<boolean>({key: "isGameOver", initialValue: false})
 
   const userState: UserStateType = [userPrimaryLoginData, changePrimaryUserLoginData];
   const boardState: BoardStateType = [board, setBoard]
   const attemptState: AttemptStateType = [attempt, setAttempt]
   const answerState: AnswerStateType = [answer, setAnswer]
-  const currentSpotState: CurrentSpotType = [currentSpot, setCurrentSpot]
-  const keyboardKeysState: KeyboardKeysType = [keyboardKeys, setKeyboardKeys]
+  const currentSpotState: CurrentSpotStateType = [currentSpot, setCurrentSpot]
+  const keyboardKeysState: KeyboardKeysStateType = [keyboardKeys, setKeyboardKeys]
   const isGameOverState: IsGameOverType = [isGameOver, setIsGameOver]
 
   const startOver = () => {
