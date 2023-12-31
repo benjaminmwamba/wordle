@@ -10,6 +10,7 @@ $case_border_thickness: 3px;
 	align-items: center;
 	padding-top: 20px;
 	padding-bottom: 10px;
+	overflow: visible;
 }
 
 
@@ -22,6 +23,7 @@ $case_border_thickness: 3px;
 	display: grid;
 	grid-template-rows: repeat(6, 1fr);
 	gap: $case_gap;
+	overflow: visible;
 }
 
 .board_slot {
@@ -34,6 +36,20 @@ $case_border_thickness: 3px;
 	align-items: center;
 	justify-content: space-between;
 	gap: $case_gap;
+	overflow: visible;
+}
+
+// Define the keyframes for the animation
+@keyframes growAndShrink {
+
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
 }
 
 .board_case {
@@ -50,58 +66,33 @@ $case_border_thickness: 3px;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
 	&[data-is_filled=true] {
-		border-color: blue;
+		//border-color: variables.$brigh_grey_color;
+		border-color: #565758;
+		animation: growAndShrink 0.1s ease-in-out;
+		//animation: growAndShrink 0.1s;
 	}
 }
 
 //BOARD CASES ANIMATION
 
-.shake_animation {
-	animation: shake 1.1s infinite;
-}
-
-@keyframes shake {
+@keyframes shrinkAndGrow {
 	0% {
-		transform: translate(0);
+		transform: scaleY(1);
+		opacity: 1;
 	}
 
-	10% {
-		transform: translate(-5px, -5px);
+	15% {
+		transform: scaleY(0.15);
+		opacity: 0;
 	}
 
-	20% {
-		transform: translate(5px, -5px);
-	}
-
-	30% {
-		transform: translate(-5px, 5px);
-	}
-
-	40% {
-		transform: translate(5px, 5px);
-	}
-
-	50% {
-		transform: translate(-5px, -5px);
-	}
-
-	60% {
-		transform: translate(5px, -5px);
-	}
-
-	70% {
-		transform: translate(-5px, 5px);
-	}
-
-	80% {
-		transform: translate(5px, 5px);
-	}
-
-	90% {
-		transform: translate(-5px, -5px);
+	85% {
+		transform: scaleY(0.15);
+		opacity: 0;
 	}
 
 	100% {
-		transform: translate(0);
+		transform: scaleY(1);
+		opacity: 1;
 	}
 }
