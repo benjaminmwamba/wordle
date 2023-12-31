@@ -48,6 +48,10 @@ $case_border_thickness: 3px;
 	color: white;
 	text-transform: uppercase;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+	&[data-is_filled=true] {
+		border-color: blue;
+	}
 }
 
 //BOARD CASES ANIMATION

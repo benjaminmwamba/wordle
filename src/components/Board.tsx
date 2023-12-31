@@ -31,10 +31,14 @@ const BoardUI = () => {
 						<div data-board_slot key={slotKeyKey} className={styles.board_slot}>
 							{slotKey.map(({ color, text }, index) => {
 								const innerKeyKey = innerKeys[index];
+								let isFilled = text !== EMPTY_STRING;
+								if (color !== EMPTY_STRING) {
+									isFilled = false
+								}
 								return (
 									<div key={innerKeyKey} style={{
-										backgroundColor: color === EMPTY_STRING ? REGULAR_BACKGROUND_COLOR : color
-									}} data-board_case className={styles.board_case}>
+										backgroundColor: color === EMPTY_STRING ? REGULAR_BACKGROUND_COLOR : color,
+									}} data-board_case data-is_filled={isFilled} className={styles.board_case}>
 										{text}
 									</div>
 								);

@@ -37,16 +37,17 @@ const initialBoardState: { color: string, text: string }[][] = [
   [{ color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }, { color: EMPTY_STRING, text: EMPTY_STRING }],
 ];
 const initialKeyboardKeys: { color: string, text: string }[][] = [
-  [{ color: EMPTY_STRING, text: "q" },
-  { color: EMPTY_STRING, text: "w" },
-  { color: EMPTY_STRING, text: "e" },
-  { color: EMPTY_STRING, text: "r" },
-  { color: EMPTY_STRING, text: "t" },
-  { color: EMPTY_STRING, text: "y" },
-  { color: EMPTY_STRING, text: "u" },
-  { color: EMPTY_STRING, text: "i" },
-  { color: EMPTY_STRING, text: "o" },
-  { color: EMPTY_STRING, text: "p" }
+  [
+    { color: EMPTY_STRING, text: "q" },
+    { color: EMPTY_STRING, text: "w" },
+    { color: EMPTY_STRING, text: "e" },
+    { color: EMPTY_STRING, text: "r" },
+    { color: EMPTY_STRING, text: "t" },
+    { color: EMPTY_STRING, text: "y" },
+    { color: EMPTY_STRING, text: "u" },
+    { color: EMPTY_STRING, text: "i" },
+    { color: EMPTY_STRING, text: "o" },
+    { color: EMPTY_STRING, text: "p" }
   ],
   [
     { color: EMPTY_STRING, text: EMPTY_STRING },
@@ -109,13 +110,13 @@ const StateProvider = ({ children }: { children: any }) => {
   */
 
   //const [board, setBoard] = useLocalStorage<{ color: string, text: string }[][]>(initialBoardState);
-  const [board, setBoard] = useLocalStorage<BoardType>({key: "board", initialValue: initialBoardState});
-  const [attempt, setAttempt] = useLocalStorage<string>({ key: "attempt", initialValue: EMPTY_STRING});
-  const [answer, setAnswer] = useLocalStorage<string>({key: "answer", initialValue: initialAnswer})
-  const [currentSpot, setCurrentSpot] = useLocalStorage<CurrentSpotType>({key: "currentSpot", initialValue: initialCurrentSpot})
+  const [board, setBoard] = useLocalStorage<BoardType>({ key: "board", initialValue: initialBoardState });
+  const [attempt, setAttempt] = useLocalStorage<string>({ key: "attempt", initialValue: EMPTY_STRING });
+  const [answer, setAnswer] = useLocalStorage<string>({ key: "answer", initialValue: initialAnswer })
+  const [currentSpot, setCurrentSpot] = useLocalStorage<CurrentSpotType>({ key: "currentSpot", initialValue: initialCurrentSpot })
 
   const [keyboardKeys, setKeyboardKeys] = useLocalStorage<KeyboardKeysType>({ key: "keyboardKeys", initialValue: initialKeyboardKeys })
-  const [isGameOver, setIsGameOver] = useLocalStorage<boolean>({key: "isGameOver", initialValue: false})
+  const [isGameOver, setIsGameOver] = useLocalStorage<boolean>({ key: "isGameOver", initialValue: false })
 
   const userState: UserStateType = [userPrimaryLoginData, changePrimaryUserLoginData];
   const boardState: BoardStateType = [board, setBoard]
